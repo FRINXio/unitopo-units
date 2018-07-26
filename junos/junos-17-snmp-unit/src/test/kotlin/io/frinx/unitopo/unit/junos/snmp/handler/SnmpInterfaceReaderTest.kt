@@ -17,7 +17,7 @@
 package io.frinx.unitopo.unit.junos.snmp.handler
 
 import io.frinx.unitopo.unit.utils.AbstractNetconfHandlerTest
-import org.junit.Assert.assertEquals
+import org.junit.Assert
 import org.junit.Test
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.interfaces.rev161222.InterfaceId
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.snmp.rev171024.snmp.interfaces.structural.interfaces.InterfaceKey as SnmpInterfaceKey
@@ -30,8 +30,9 @@ class SnmpInterfaceReaderTest : AbstractNetconfHandlerTest() {
     fun testGlobal() {
         val ifcs = SnmpInterfaceReader.parseInterfaceIds(parseGetCfgResponse(DATA_NODES,
                 SnmpInterfaceReader.UNDERLAY_IFC_ID))
-        assertEquals(listOf("ge-0/0/0" to false, "ge-0/0/1" to true, "ae656" to true)
+        val expected = listOf("ge-0/0/0" to false, "ge-0/0/1" to true, "ae656" to true)
                 .map { SnmpInterfaceKey(InterfaceId(it.first)) to it.second }
-                .toList(), ifcs)
+        Assert.assertEquals(expected.size, ifcs.size)
+        Assert.assertTrue(expected.containsAll(ifcs))
     }
 }

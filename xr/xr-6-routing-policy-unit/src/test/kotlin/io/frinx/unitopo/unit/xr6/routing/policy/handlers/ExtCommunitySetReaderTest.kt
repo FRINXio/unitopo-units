@@ -17,7 +17,7 @@
 package io.frinx.unitopo.unit.xr6.routing.policy.handlers
 
 import io.frinx.unitopo.unit.utils.AbstractNetconfHandlerTest
-import org.junit.Assert.assertEquals
+import org.junit.Assert
 import org.junit.Test
 import org.opendaylight.yang.gen.v1.http.cisco.com.ns.yang.cisco.ios.xr.infra.rsi.cfg.rev150730.Vrfs
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.bgp.policy.rev170730.ExtCommunitySetConfig
@@ -36,11 +36,9 @@ class ExtCommunitySetReaderTest : AbstractNetconfHandlerTest() {
 
         val vrfs = parseGetCfgResponse(DATA_NODES, InstanceIdentifier.create(Vrfs::class.java))
 
-        assertEquals(listOf("abcd-route-target-export-set", "abcd-route-target-import-set",
-            "abcd3-route-target-import-set")
-                .map { ExtCommunitySetKey(it) },
-
-                ExtCommunitySetReader.parseAllIds(vrfs))
+        Assert.assertTrue(listOf("abcd-route-target-export-set", "abcd-route-target-import-set",
+                "abcd3-route-target-import-set")
+                .map { ExtCommunitySetKey(it) }.containsAll(ExtCommunitySetReader.parseAllIds(vrfs)))
     }
 
     @Test
@@ -49,34 +47,41 @@ class ExtCommunitySetReaderTest : AbstractNetconfHandlerTest() {
 
         var builder = ExtCommunitySetBuilder()
         ExtCommunitySetReader.parseCurrentAttributes(vrfs, builder, "abcd-route-target-export-set")
-        assertEquals(
-                ExtCommunitySetBuilder()
+        var real = builder.build()
+        var expected = ExtCommunitySetBuilder()
+                .setExtCommunitySetName("abcd-route-target-export-set")
+                .setConfig(ConfigBuilder()
                         .setExtCommunitySetName("abcd-route-target-export-set")
-                        .setConfig(ConfigBuilder()
-                                .setExtCommunitySetName("abcd-route-target-export-set")
-                                .setExtCommunityMember(listOf("8585:4343", "1:1").map {
-                                    ExtCommunitySetConfig.ExtCommunityMember(BgpExtCommunityType(it)) })
-                                .build())
-                        .build(),
-                builder.build())
+                        .setExtCommunityMember(listOf("8585:4343", "1:1").map {
+                            ExtCommunitySetConfig.ExtCommunityMember(BgpExtCommunityType(it)) })
+                        .build())
+                .build()
+
+        Assert.assertEquals(real.extCommunitySetName, expected.extCommunitySetName)
+        Assert.assertEquals(real.config.extCommunityMember!!.size, expected.config.extCommunityMember!!.size)
+        Assert.assertTrue(real.config.extCommunityMember!!.containsAll(expected.config.extCommunityMember!!.toList()))
 
         builder = ExtCommunitySetBuilder()
         ExtCommunitySetReader.parseCurrentAttributes(vrfs, builder, "abcd-route-target-import-set")
-        assertEquals(
-                ExtCommunitySetBuilder()
+
+        real = builder.build()
+        expected = ExtCommunitySetBuilder()
+                .setExtCommunitySetName("abcd-route-target-import-set")
+                .setConfig(ConfigBuilder()
                         .setExtCommunitySetName("abcd-route-target-import-set")
-                        .setConfig(ConfigBuilder()
-                                .setExtCommunitySetName("abcd-route-target-import-set")
-                                .setExtCommunityMember(listOf("6500:4", "5445444:1").map {
-                                    ExtCommunitySetConfig.ExtCommunityMember(BgpExtCommunityType(it)) })
-                                .build())
-                        .build(),
-                builder.build())
+                        .setExtCommunityMember(setOf("6500:4", "5445444:1").map {
+                            ExtCommunitySetConfig.ExtCommunityMember(BgpExtCommunityType(it)) })
+                        .build())
+                .build()
+
+        Assert.assertEquals(real.extCommunitySetName, expected.extCommunitySetName)
+        Assert.assertEquals(real.config.extCommunityMember!!.size, expected.config.extCommunityMember!!.size)
+        Assert.assertTrue(real.config.extCommunityMember!!.containsAll(expected.config.extCommunityMember!!.toList()))
 
         val builder2 = ExtCommunitySetBuilder()
         ExtCommunitySetReader.parseCurrentAttributes(vrfs, builder2, "NONEXISTING")
 
-        assertEquals(
+        Assert.assertEquals(
                 ExtCommunitySetBuilder().build(),
                 builder2.build())
     }
