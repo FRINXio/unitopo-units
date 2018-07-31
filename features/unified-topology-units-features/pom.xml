@@ -20,41 +20,34 @@
     <artifactId>unified-topology-units-features</artifactId>
     <version>4.1.0.rc1-frinx-SNAPSHOT</version>
     <name>${project.artifactId}</name>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>unitopo-units-artifacts</artifactId>
-                <type>pom</type>
-                <version>${project.version}</version>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+    <packaging>feature</packaging>
 
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>frinx-unified-topology-all-units</artifactId>
+            <version>${project.version}</version>
             <type>xml</type>
             <classifier>features</classifier>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>frinx-unified-topology-unit-base</artifactId>
+            <version>${project.version}</version>
             <type>xml</type>
             <classifier>features</classifier>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>frinx-unified-topology-unit-junos-17-3</artifactId>
+            <version>${project.version}</version>
             <type>xml</type>
             <classifier>features</classifier>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>frinx-unified-topology-unit-xr-6</artifactId>
+            <version>${project.version}</version>
             <type>xml</type>
             <classifier>features</classifier>
         </dependency>
