@@ -14,8 +14,11 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
+
 <!-- vi: set et smarttab sw=4 tabstop=4: -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -25,25 +28,38 @@
         <relativePath>../../kotlin-unit-parent</relativePath>
     </parent>
 
-    <artifactId>xr-6-init-unit</artifactId>
+    <artifactId>xr-6-models</artifactId>
     <packaging>bundle</packaging>
-
-
     <build>
         <plugins>
-            <plugin>
+          <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
+                        <_invalidfilenames></_invalidfilenames>
+                        <Export-Package>
+                            <!-- Export generated APIs with device label -->
+                            org.opendaylight.yang.gen.v1.http.cisco.com.ns.yang.cisco.*;device=xr6
+                        </Export-Package>
                         <Import-Package>
-                            org.opendaylight.yang.gen.v1.http.cisco.com.ns.yang.cisco.*;device=xr6,
+                            <!--
+                            For some reason, all the generated packages are added to import section
+                            which is dangerous in runtime. Prevent that with following instruction
+                             -->
+                            !org.opendaylight.yang.gen.v1.http.cisco.com.ns.yang.cisco.*,
                             *,
                         </Import-Package>
                     </instructions>
                 </configuration>
             </plugin>
         </plugins>
-    </build>
+   </build>
+    <dependencies>
+        <dependency>
+            <groupId>org.opendaylight.yangtools</groupId>
+            <artifactId>yang-common</artifactId>
+        </dependency>
+    </dependencies>
 </project>
