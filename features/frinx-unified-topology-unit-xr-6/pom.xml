@@ -39,6 +39,13 @@
                 <version>${project.version}</version>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>org.opendaylight.netconf</groupId>
+                <artifactId>netconf-artifacts</artifactId>
+                <type>pom</type>
+                <version>1.4.2-Oxygen-SR2.4_1_0_rc1-frinxodl-SNAPSHOT</version>
+                <scope>import</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -123,6 +130,12 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>frinx-unified-topology-unit-base</artifactId>
+            <type>xml</type>
+            <classifier>features</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.opendaylight.netconf</groupId>
+            <artifactId>odl-netconf-topology</artifactId>
             <type>xml</type>
             <classifier>features</classifier>
         </dependency>
