@@ -19,10 +19,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>io.frinx.unitopo</groupId>
-        <artifactId>kotlin-unit-parent</artifactId>
-        <version>4.1.0.rc1-frinx-SNAPSHOT</version>
-        <relativePath>../../kotlin-unit-parent</relativePath>
+        <groupId>org.opendaylight.mdsal</groupId>
+        <artifactId>binding-parent</artifactId>
+        <version>0.12.2-Oxygen-SR2.4_1_0_rc1-frinxodl-SNAPSHOT</version>
+        <relativePath/>
     </parent>
 
     <artifactId>junos-17-models</artifactId>
