@@ -25,7 +25,9 @@
         <relativePath/>
     </parent>
 
+    <groupId>io.frinx.unitopo</groupId>
     <artifactId>junos-17-models</artifactId>
+    <version>4.1.0.rc1-frinx-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <build>
         <plugins>
