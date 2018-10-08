@@ -126,6 +126,10 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>xr-6-lldp-unit</artifactId>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xr-6-configuration-metadata-unit</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
