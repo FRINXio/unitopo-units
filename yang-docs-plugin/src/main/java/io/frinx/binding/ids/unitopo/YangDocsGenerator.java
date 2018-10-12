@@ -57,11 +57,6 @@ public final class YangDocsGenerator implements BasicCodeGenerator, BuildContext
     private Optional<Object> reflectionObject;
 
     @Override
-    public Collection<File> generateSources(SchemaContext context, File outputBaseDir, Set<Module> currentModules) {
-        throw new UnsupportedOperationException("Deprecated method");
-    }
-
-    @Override
     public Collection<File> generateSources(SchemaContext context,
                                             File outputBaseDir,
                                             Set<Module> currentModules,
@@ -139,8 +134,8 @@ public final class YangDocsGenerator implements BasicCodeGenerator, BuildContext
     }
 
     @Override
-    public void setMavenProject(MavenProject project) {
-        this.project = project;
+    public void setMavenProject(MavenProject mavenProject) {
+        this.project = mavenProject;
     }
 
 
