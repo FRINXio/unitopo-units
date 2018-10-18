@@ -67,7 +67,7 @@ public final class YangDocsGenerator implements BasicCodeGenerator, BuildContext
             reflectionObject = unitLoader.getReflectionObject(unitCollector);
             yangModuleInfos = unitLoader.getYangModuleInfos();
         } catch (ClassNotFoundException e) {
-            LOG.warn("Class has not been found, will not generate documentation for this unit", e);
+            LOG.warn("Class has not been found, will not generate documentation for this unit");
             return Collections.emptyList();
         }
 
