@@ -25,10 +25,10 @@
     </parent>
 
     <groupId>io.frinx.unitopo</groupId>
-    <artifactId>frinx-unified-topology-all-units</artifactId>
+    <artifactId>frinx-unified-topology-unit-xr-7</artifactId>
     <packaging>feature</packaging>
     <version>4.1.0.rc1-frinx-SNAPSHOT</version>
-    <name>Frinx :: Unified Topology :: Unit :: All</name>
+    <name>Frinx :: Unified Topology :: Unit :: XR :: 7</name>
 
     <dependencyManagement>
         <dependencies>
@@ -39,25 +39,63 @@
                 <version>${project.version}</version>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>org.opendaylight.netconf</groupId>
+                <artifactId>netconf-artifacts</artifactId>
+                <type>pom</type>
+                <version>1.4.2-Oxygen-SR2.4_1_0_rc1-frinxodl-SNAPSHOT</version>
+                <scope>import</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <dependencies>
         <dependency>
+            <groupId>io.fd.honeycomb</groupId>
+            <artifactId>translate-utils</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jgrapht</groupId>
+                    <artifactId>jgrapht-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jgrapht</groupId>
+                    <artifactId>jgrapht-ext</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.tinyjee.jgraphx</groupId>
+                    <artifactId>jgraphx</artifactId>
+                </exclusion>
+            </exclusions>
+            <version>1.18.04-Oxygen-SR2.4_1_0_rc1-frinxodl-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>frinx-unified-topology-unit-xr-6</artifactId>
+            <artifactId>network-instance-unit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>utils-unit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xr-7-models</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xr-7-init-unit</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>frinx-unified-topology-unit-base</artifactId>
             <type>xml</type>
             <classifier>features</classifier>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>frinx-unified-topology-unit-xr-7</artifactId>
-            <type>xml</type>
-            <classifier>features</classifier>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>frinx-unified-topology-unit-junos-17-3</artifactId>
+            <groupId>org.opendaylight.netconf</groupId>
+            <artifactId>odl-netconf-topology</artifactId>
             <type>xml</type>
             <classifier>features</classifier>
         </dependency>
