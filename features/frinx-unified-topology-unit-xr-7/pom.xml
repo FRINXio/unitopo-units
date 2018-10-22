@@ -20,14 +20,14 @@
     <parent>
         <groupId>org.opendaylight.odlparent</groupId>
         <artifactId>single-feature-parent</artifactId>
-        <version>3.1.1-Oxygen-SR2.4_1_0_rc1-frinxodl-SNAPSHOT</version>
+        <version>3.1.1-Oxygen-SR2.4_2_0_rc1-frinxodl-SNAPSHOT</version>
         <relativePath/>
     </parent>
 
     <groupId>io.frinx.unitopo</groupId>
     <artifactId>frinx-unified-topology-unit-xr-7</artifactId>
     <packaging>feature</packaging>
-    <version>4.1.0.rc1-frinx-SNAPSHOT</version>
+    <version>4.2.0.rc1-frinx-SNAPSHOT</version>
     <name>Frinx :: Unified Topology :: Unit :: XR :: 7</name>
 
     <dependencyManagement>
@@ -43,7 +43,7 @@
                 <groupId>org.opendaylight.netconf</groupId>
                 <artifactId>netconf-artifacts</artifactId>
                 <type>pom</type>
-                <version>1.4.2-Oxygen-SR2.4_1_0_rc1-frinxodl-SNAPSHOT</version>
+                <version>1.4.2-Oxygen-SR2.4_2_0_rc1-frinxodl-SNAPSHOT</version>
                 <scope>import</scope>
             </dependency>
         </dependencies>
@@ -67,7 +67,7 @@
                     <artifactId>jgraphx</artifactId>
                 </exclusion>
             </exclusions>
-            <version>1.18.04-Oxygen-SR2.4_1_0_rc1-frinxodl-SNAPSHOT</version>
+            <version>1.18.04-Oxygen-SR2.4_2_0_rc1-frinxodl-SNAPSHOT</version>
         </dependency>
 
         <dependency>
