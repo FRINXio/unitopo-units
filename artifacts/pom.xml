@@ -166,6 +166,16 @@
                 <artifactId>xr-6-configuration-metadata-unit</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.frinx.unitopo</groupId>
+                <artifactId>xr-7-models</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.frinx.unitopo</groupId>
+                <artifactId>xr-7-init-unit</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <!-- Features -->
             <dependency>
@@ -192,6 +202,13 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>frinx-unified-topology-unit-xr-6</artifactId>
+                <type>xml</type>
+                <classifier>features</classifier>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>frinx-unified-topology-unit-xr-7</artifactId>
                 <type>xml</type>
                 <classifier>features</classifier>
                 <version>${project.version}</version>
