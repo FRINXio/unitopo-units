@@ -27,7 +27,7 @@
     <groupId>io.frinx.unitopo</groupId>
     <artifactId>frinx-unified-topology-unit-junos-17-3</artifactId>
     <packaging>feature</packaging>
-    <version>4.2.0.rc2-frinx-SNAPSHOT</version>
+    <version>4.2.0.rc2-frinx</version>
     <name>Frinx :: Unified Topology :: Unit :: Junos :: 17-3</name>
 
     <dependencyManagement>
