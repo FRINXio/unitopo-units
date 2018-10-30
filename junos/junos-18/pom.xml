@@ -25,13 +25,13 @@
   </parent>
 
   <groupId>io.frinx.unitopo</groupId>
-  <artifactId>unitopo-units-junos</artifactId>
+  <artifactId>unitopo-units-junos-18</artifactId>
   <version>4.2.0.rc4-frinx-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <modules>
-    <module>junos-17</module>
-    <module>junos-18</module>
+    <module>junos-18-models</module>
+    <module>junos-18-configuration-metadata-unit</module>
   </modules>
 
   <build>

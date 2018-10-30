@@ -25,7 +25,7 @@
   <modules>
     <module>unified-topology-units-features</module>
     <module>frinx-unified-topology-all-units</module>
-
+    <module>frinx-unified-topology-unit-junos-18-2</module>
     <module>frinx-unified-topology-unit-junos-17-3</module>
     <module>frinx-unified-topology-unit-xr-6</module>
     <module>frinx-unified-topology-unit-xr-7</module>
