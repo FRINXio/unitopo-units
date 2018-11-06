@@ -104,6 +104,11 @@
                 <artifactId>junos-17-lacp-unit</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.frinx.unitopo</groupId>
+                <artifactId>junos-17-bfd-unit</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <!-- Junos-18 -->
             <dependency>
