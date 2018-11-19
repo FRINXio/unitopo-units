@@ -126,6 +126,11 @@
                 <artifactId>junos-18-interface-unit</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.frinx.unitopo</groupId>
+                <artifactId>junos-18-network-instance-unit</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <!-- Cisco XR -->
             <dependency>
@@ -222,6 +227,13 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>frinx-unified-topology-unit-junos-17-3</artifactId>
+                <type>xml</type>
+                <classifier>features</classifier>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>frinx-unified-topology-unit-junos-18-2</artifactId>
                 <type>xml</type>
                 <classifier>features</classifier>
                 <version>${project.version}</version>
