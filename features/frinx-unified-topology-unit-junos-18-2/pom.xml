@@ -87,6 +87,10 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>junos-18-configuration-metadata-unit</artifactId>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>junos-18-interface-unit</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
