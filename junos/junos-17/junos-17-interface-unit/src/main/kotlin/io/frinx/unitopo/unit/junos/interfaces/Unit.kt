@@ -133,7 +133,7 @@ class Unit(private val registry: TranslationUnitCollector) : TranslateUnit {
         wRegistry.add(GenericWriter(IIDs.INTE_INTE_AUG_INTERFACE1, NoopWriter()))
         wRegistry.add(GenericWriter(IIDs.IN_IN_AUG_INTERFACE1_ETHERNET, NoopWriter()))
         wRegistry.add(GenericWriter(IIDs.IN_IN_AUG_INTERFACE1_ET_CONFIG, NoopWriter()))
-        wRegistry.addAfter(GenericWriter(IIDs.INT_INT_ETH_CON_AUG_CONFIG1,
+        wRegistry.addAfter(GenericWriter(IIDs.IN_IN_ET_CO_AUG_CONFIG1,
             InterfaceIfAggregateConfigWriter(underlayAccess)), IIDs.IN_IN_CONFIG)
         wRegistry.addAfter(GenericWriter(io.frinx.openconfig.openconfig.lacp.IIDs.IN_IN_ET_CO_AUG_LACPETHCONFIGAUG,
             InterfaceLacpConfigWriter(underlayAccess)), IIDs.IN_IN_CONFIG)
@@ -174,10 +174,10 @@ class Unit(private val registry: TranslationUnitCollector) : TranslateUnit {
         rRegistry.add(GenericConfigReader(IIDs.IN_IN_AUG_IFDAMPAUG_DA_CONFIG,
             InterfaceDampingConfigReader(underlayAccess)))
 
-        rRegistry.addStructuralReader(IIDs.INTERF_INTERF_AUG_INTERFACE1, Interface1Builder::class.java)
+        rRegistry.addStructuralReader(IIDs.INTER_INTER_AUG_INTERFACE1, Interface1Builder::class.java)
         rRegistry.addStructuralReader(IIDs.IN_IN_AUG_INTERFACE1_ETHERNET, EthernetBuilder::class.java)
         rRegistry.addStructuralReader(IIDs.IN_IN_AUG_INTERFACE1_ET_CONFIG, ConfigBuilder::class.java)
-        rRegistry.add(GenericConfigReader(IIDs.INT_INT_ETH_CON_AUG_CONFIG1,
+        rRegistry.add(GenericConfigReader(IIDs.IN_IN_ET_CO_AUG_CONFIG1,
             InterfaceIfAggregateConfigReader(underlayAccess)))
         rRegistry.add(GenericConfigReader(LacpIIDs.IN_IN_ET_CO_AUG_CONFIG1, InterfaceLacpConfigReader(underlayAccess)))
 
@@ -192,7 +192,7 @@ class Unit(private val registry: TranslationUnitCollector) : TranslateUnit {
         rRegistry.add(GenericConfigReader(IfIpIIDs.IN_IN_SU_SU_AUG_SUBINTERFACE1_IP_AD_AD_CONFIG,
             SubinterfaceAddressConfigReader(underlayAccess)))
 
-        rRegistry.addStructuralReader(IIDs.INTER_INTER_AUG_INTERFACE1, AggregateInterface1AugBuilder::class.java)
+        rRegistry.addStructuralReader(IIDs.INT_INT_AUG_INTERFACE1, AggregateInterface1AugBuilder::class.java)
         rRegistry.addStructuralReader(IIDs.IN_IN_AUG_INTERFACE1_AGGREGATION, AggregationBuilder::class.java)
         rRegistry.addStructuralReader(IIDs.IN_IN_AG_AUG_IFLAGBFDAUG, IfLagBfdAugBuilder::class.java)
         rRegistry.addStructuralReader(IIDs.IN_IN_AG_AUG_IFLAGBFDAUG_BFD, BfdBuilder::class.java)
