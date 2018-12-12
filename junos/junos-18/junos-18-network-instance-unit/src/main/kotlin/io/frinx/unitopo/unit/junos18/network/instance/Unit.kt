@@ -28,7 +28,7 @@ import io.frinx.unitopo.registry.spi.UnderlayAccess
 import io.frinx.unitopo.unit.junos18.network.instance.vrf.ifc.InterfaceConfigReader
 import io.frinx.unitopo.unit.junos18.network.instance.vrf.ifc.InterfaceConfigWriter
 import io.frinx.unitopo.unit.junos18.network.instance.vrf.ifc.InterfaceReader
-import io.frinx.unitopo.unit.network.instance.NetworkInstanceUnit
+import io.frinx.unitopo.handlers.network.instance.NetworkInstanceUnit
 import io.frinx.unitopo.unit.utils.NoopListWriter
 import org.opendaylight.yangtools.yang.binding.YangModuleInfo
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.network.instance.rev170228.network.instance.top.network.instances.network.instance.Config as NetworkInstanceConfig

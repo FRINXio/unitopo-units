@@ -61,6 +61,11 @@
             <groupId>org.opendaylight.mdsal</groupId>
             <artifactId>yang-binding</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.frinx.openconfig</groupId>
+            <artifactId>openconfig-types</artifactId>
+            <version>${openconfig.version}</version>
+        </dependency>
 
         <!-- Testing Dependencies -->
         <dependency>

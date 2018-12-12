@@ -76,10 +76,6 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>network-instance-unit</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
             <artifactId>utils-unit</artifactId>
         </dependency>
     </dependencies>
