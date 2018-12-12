@@ -86,6 +86,10 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>xr-7-interface-unit</artifactId>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xr-7-network-instance-unit</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>

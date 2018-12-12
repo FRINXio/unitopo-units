@@ -42,6 +42,11 @@
                 <artifactId>utils-unit</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.frinx.unitopo</groupId>
+                <artifactId>network-instance-unit</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <!-- Junos-17 -->
             <dependency>
@@ -206,6 +211,11 @@
             <dependency>
                 <groupId>io.frinx.unitopo</groupId>
                 <artifactId>xr-7-interface-unit</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.frinx.unitopo</groupId>
+                <artifactId>xr-7-network-instance-unit</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
