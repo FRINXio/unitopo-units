@@ -99,6 +99,10 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>junos-18-acl-unit</artifactId>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>junos-18-probe-unit</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
