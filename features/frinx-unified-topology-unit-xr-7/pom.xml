@@ -94,6 +94,10 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>xr-7-configuration-metadata-unit</artifactId>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xr-7-evpn-unit</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
