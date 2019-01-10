@@ -90,6 +90,10 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>xr-7-network-instance-unit</artifactId>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xr-7-configuration-metadata-unit</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
