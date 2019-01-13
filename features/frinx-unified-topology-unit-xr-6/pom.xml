@@ -27,7 +27,7 @@
     <groupId>io.frinx.unitopo</groupId>
     <artifactId>frinx-unified-topology-unit-xr-6</artifactId>
     <packaging>feature</packaging>
-    <version>4.2.0.rc10-frinx-SNAPSHOT</version>
+    <version>4.2.0.rc10-frinx</version>
     <name>Frinx :: Unified Topology :: Unit :: XR :: 6</name>
 
     <dependencyManagement>
