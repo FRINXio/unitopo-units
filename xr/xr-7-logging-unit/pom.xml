@@ -29,7 +29,7 @@
     </parent>
 
     <artifactId>xr-7-logging-unit</artifactId>
-    <version>4.2.0.rc10-frinx-SNAPSHOT</version>
+    <version>4.2.0.rc11-frinx-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <description>
         Unified topology unit for XR interfaces.
