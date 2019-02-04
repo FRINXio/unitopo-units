@@ -11,6 +11,9 @@ import org.opendaylight.yang.gen.v1.http.yang.juniper.net.junos.conf.services.re
  *
  */
 public class SendAlwaysFailuresBeforeUnavailableBuilder {
+    private SendAlwaysFailuresBeforeUnavailableBuilder() {
+        //Exists only to defeat instantiation.
+    }
 
     public static org.opendaylight.yang.gen.v1.http.yang.juniper.net.junos.conf.services.rev180101.availability.check.profile.keepalive.strategy.keepalive.strategy.case_1.SendAlways.FailuresBeforeUnavailable getDefaultInstance(java.lang.String defaultValue) {
         throw new java.lang.UnsupportedOperationException("Not yet implemented");

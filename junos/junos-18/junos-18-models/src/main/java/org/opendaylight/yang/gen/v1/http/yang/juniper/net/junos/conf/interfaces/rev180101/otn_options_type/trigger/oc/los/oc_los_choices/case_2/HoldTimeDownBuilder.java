@@ -11,6 +11,9 @@ import org.opendaylight.yang.gen.v1.http.yang.juniper.net.junos.conf.interfaces.
  *
  */
 public class HoldTimeDownBuilder {
+    private HoldTimeDownBuilder() {
+        //Exists only to defeat instantiation.
+    }
 
     public static org.opendaylight.yang.gen.v1.http.yang.juniper.net.junos.conf.interfaces.rev180101.otn_options_type.trigger.oc.los.oc_los_choices.case_2.HoldTime.Down getDefaultInstance(java.lang.String defaultValue) {
         throw new java.lang.UnsupportedOperationException("Not yet implemented");

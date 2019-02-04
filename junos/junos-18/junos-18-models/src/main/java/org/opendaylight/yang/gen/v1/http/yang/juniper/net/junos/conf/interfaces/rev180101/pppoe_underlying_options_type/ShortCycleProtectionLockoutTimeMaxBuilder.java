@@ -11,6 +11,9 @@ import org.opendaylight.yang.gen.v1.http.yang.juniper.net.junos.conf.interfaces.
  *
  */
 public class ShortCycleProtectionLockoutTimeMaxBuilder {
+    private ShortCycleProtectionLockoutTimeMaxBuilder() {
+        //Exists only to defeat instantiation.
+    }
 
     public static org.opendaylight.yang.gen.v1.http.yang.juniper.net.junos.conf.interfaces.rev180101.pppoe_underlying_options_type.ShortCycleProtection.LockoutTimeMax getDefaultInstance(java.lang.String defaultValue) {
         throw new java.lang.UnsupportedOperationException("Not yet implemented");
