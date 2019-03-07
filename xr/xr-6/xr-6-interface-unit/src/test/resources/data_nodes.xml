@@ -401,6 +401,10 @@
                                 <interface-name>Bundle-Ether100</interface-name>
                                 <interface>Bundle-Ether100</interface>
                             </interface>
+                            <interface>
+                                <interface-name>Bundle-Ether3000</interface-name>
+                                <interface>Bundle-Ether3000</interface>
+                            </interface>
                         </interfaces>
                     </system-view>
                 </data-node>
@@ -416,13 +420,22 @@
                     <args>specify-all</args>
                     <half-life>10</half-life>
                     <reuse-threshold>11</reuse-threshold>
-                    <suppress-threshold>12</suppress-threshold>
+                    <suppress-threshold>15000</suppress-threshold>
                     <suppress-time>13</suppress-time>
                 </dampening>
                 <shutdown></shutdown>
                 <statistics xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-infra-statsd-cfg">
                     <load-interval>60</load-interval>
                 </statistics>
+                <bundle-member xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-bundlemgr-cfg">
+                    <id>
+                        <bundle-id>65535</bundle-id>
+                        <port-activity>passive</port-activity>
+                    </id>
+                </bundle-member>
+                <lacp xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-bundlemgr-cfg">
+                    <period-short>true</period-short>
+                </lacp>
             </interface-configuration>
             <interface-configuration>
                 <active>act</active>
@@ -456,7 +469,7 @@
                     <args>specify-all</args>
                     <half-life>10</half-life>
                     <reuse-threshold>11</reuse-threshold>
-                    <suppress-threshold>12</suppress-threshold>
+                    <suppress-threshold>15000</suppress-threshold>
                     <suppress-time>13</suppress-time>
                 </dampening>
                 <interface-virtual></interface-virtual>
@@ -473,6 +486,31 @@
                         </primary>
                     </addresses>
                 </ipv4-network>
+            </interface-configuration>
+            <interface-configuration>
+                <active>act</active>
+                <interface-name>Bundle-Ether3000</interface-name>
+                <interface-virtual></interface-virtual>
+                <bfd xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-bundlemgr-cfg">
+                    <mode>ietf</mode>
+                    <address-family>
+                        <ipv4>
+                            <destination-address>10.1.12.72</destination-address>
+                            <fast-detect></fast-detect>
+                            <interval>1000</interval>
+                        </ipv4>
+                        <ipv6>
+                            <ipv6-destination-address>2001::</ipv6-destination-address>
+                            <ipv6-fast-detect></ipv6-fast-detect>
+                            <ipv6-interval>500</ipv6-interval>
+                        </ipv6>
+                    </address-family>
+                </bfd>
+                <bundle xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-bundlemgr-cfg">
+                    <minimum-active>
+                        <links>1</links>
+                    </minimum-active>
+                </bundle>
             </interface-configuration>
         </interface-configurations>
     </data>

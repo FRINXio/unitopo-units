@@ -60,8 +60,7 @@ class ComponentStateReader(private val access: UnderlayAccess) : OperReaderCusto
 
     fun parseFields(
         StateBuilder: StateBuilder,
-        choice: Optional<DataContainerChild<out
-        YangInstanceIdentifier.PathArgument, *>>
+        choice: Optional<DataContainerChild<out YangInstanceIdentifier.PathArgument, *>>
     ) {
 
         if (choice.isPresent) {

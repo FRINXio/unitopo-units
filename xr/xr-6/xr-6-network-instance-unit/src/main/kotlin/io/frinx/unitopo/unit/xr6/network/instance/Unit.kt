@@ -16,41 +16,41 @@
 
 package io.frinx.unitopo.unit.xr6.network.instance
 
-import com.google.common.collect.Sets
-import io.fd.honeycomb.translate.impl.read.GenericConfigListReader
-import io.fd.honeycomb.translate.impl.read.GenericConfigReader
-import io.fd.honeycomb.translate.impl.write.GenericWriter
-import io.fd.honeycomb.translate.read.registry.ModifiableReaderRegistryBuilder
+import io.fd.honeycomb.translate.spi.builder.CustomizerAwareReadRegistryBuilder
+import io.fd.honeycomb.translate.spi.builder.CustomizerAwareWriteRegistryBuilder
 import io.fd.honeycomb.translate.util.RWUtils
-import io.fd.honeycomb.translate.write.registry.ModifiableWriterRegistryBuilder
 import io.frinx.openconfig.openconfig.network.instance.IIDs
+import io.frinx.translate.unit.commons.handler.spi.ChecksMap
+import io.frinx.unitopo.ni.base.handler.vrf.ifc.VrfInterfaceConfigReader
+import io.frinx.unitopo.ni.base.handler.vrf.protocol.ProtocolConfigReader
+import io.frinx.unitopo.ni.base.handler.vrf.protocol.ProtocolStateReader
 import io.frinx.unitopo.registry.api.TranslationUnitCollector
+import io.frinx.unitopo.registry.spi.TranslateUnit
 import io.frinx.unitopo.registry.spi.UnderlayAccess
-import io.frinx.unitopo.handlers.network.instance.NetworkInstanceUnit
-import io.frinx.unitopo.unit.utils.NoopListWriter
-import io.frinx.unitopo.unit.utils.NoopWriter
-import io.frinx.unitopo.unit.xr6.network.instance.vrf.ifc.VrfInterfaceConfigReader
-import io.frinx.unitopo.unit.xr6.network.instance.vrf.ifc.VrfInterfaceConfigWriter
-import io.frinx.unitopo.unit.xr6.network.instance.vrf.ifc.VrfInterfaceReader
-import io.frinx.unitopo.unit.xr6.network.instance.vrf.protocol.LocalAggregateConfigReader
-import io.frinx.unitopo.unit.xr6.network.instance.vrf.protocol.LocalAggregateConfigWriter
-import io.frinx.unitopo.unit.xr6.network.instance.vrf.protocol.LocalAggregateReader
-import io.frinx.unitopo.unit.xr6.network.instance.vrf.protocol.ProtocolConfigWriter
-import io.frinx.unitopo.unit.xr6.network.instance.vrf.protocol.ProtocolReader
-import io.frinx.unitopo.unit.xr6.network.instance.vrf.table.TableConnectionConfigWriter
-import io.frinx.unitopo.unit.xr6.network.instance.vrf.table.TableConnectionReader
-import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.local.routing.rev170515.local.aggregate.top.LocalAggregatesBuilder
-import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.network.instance.rev170228.network.instance.top.network.instances.network.instance.Config
-import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.network.instance.rev170228.network.instance.top.network.instances.network.instance.ConfigBuilder
+import io.frinx.unitopo.unit.xr6.network.instance.handler.ConnectionPointsReader
+import io.frinx.unitopo.unit.xr6.network.instance.handler.ConnectionPointsWriter
+import io.frinx.unitopo.unit.xr6.network.instance.handler.NetworkInstanceConfigReader
+import io.frinx.unitopo.unit.xr6.network.instance.handler.NetworkInstanceConfigWriter
+import io.frinx.unitopo.unit.xr6.network.instance.handler.NetworkInstanceReader
+import io.frinx.unitopo.unit.xr6.network.instance.handler.NetworkInstanceStateReader
+import io.frinx.unitopo.unit.xr6.network.instance.handler.vrf.ifc.VrfInterfaceConfigWriter
+import io.frinx.unitopo.unit.xr6.network.instance.handler.vrf.ifc.VrfInterfaceReader
+import io.frinx.unitopo.unit.xr6.network.instance.handler.vrf.protocol.ProtocolConfigWriter
+import io.frinx.unitopo.unit.xr6.network.instance.handler.vrf.protocol.ProtocolReader
+import io.frinx.unitopo.unit.xr6.network.instance.handler.vrf.protocol.aggregate.LocalAggregateConfigReader
+import io.frinx.unitopo.unit.xr6.network.instance.handler.vrf.protocol.aggregate.LocalAggregateConfigWriter
+import io.frinx.unitopo.unit.xr6.network.instance.handler.vrf.protocol.aggregate.LocalAggregateReader
+import io.frinx.unitopo.unit.xr6.network.instance.handler.vrf.table.TableConnectionConfigWriter
+import io.frinx.unitopo.unit.xr6.network.instance.handler.vrf.table.TableConnectionReader
+import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.network.instance.rev170228.`$YangModuleInfoImpl`
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.network.instance.rev170228.network.instance.top.network.instances.network.instance.ConnectionPoints
-import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.network.instance.rev170228.network.instance.top.network.instances.network.instance.TableConnectionsBuilder
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.network.instance.rev170228.network.instance.top.network.instances.network.instance.table.connections.TableConnection
 import org.opendaylight.yangtools.yang.binding.InstanceIdentifier
 import org.opendaylight.yangtools.yang.binding.YangModuleInfo
 import org.opendaylight.yang.gen.v1.http.cisco.com.ns.yang.cisco.ios.xr.ifmgr.cfg.rev150730.`$YangModuleInfoImpl` as UnderlayInterfacesYangInfo
 import org.opendaylight.yang.gen.v1.http.cisco.com.ns.yang.cisco.ios.xr.infra.rsi.cfg.rev150730.`$YangModuleInfoImpl` as UnderlayVRFYangInto
 
-class Unit(private val registry: TranslationUnitCollector) : NetworkInstanceUnit() {
+class Unit(private val registry: TranslationUnitCollector) : TranslateUnit {
 
     val CONN_PTS_ID = InstanceIdentifier.create(ConnectionPoints::class.java)
 
@@ -69,39 +69,56 @@ class Unit(private val registry: TranslationUnitCollector) : NetworkInstanceUnit
             UnderlayVRFYangInto.getInstance()
     )
 
-    override fun provideSpecificWriters(wRegistry: ModifiableWriterRegistryBuilder, underlayAccess: UnderlayAccess) {
-        // todo create proper writers once we support routing policies
-        wRegistry.add(GenericWriter(IIDs.NE_NE_INTERINSTANCEPOLICIES, NoopWriter()))
-        wRegistry.add(GenericWriter(IIDs.NE_NE_IN_APPLYPOLICY, NoopWriter()))
-        wRegistry.add(GenericWriter(IIDs.NE_NE_IN_AP_CONFIG, NoopWriter()))
+    override fun getYangSchemas(): Set<YangModuleInfo> = setOf(
+        `$YangModuleInfoImpl`.getInstance()
+    )
 
-        wRegistry.addAfter(GenericWriter(IIDs.NE_NE_PR_PR_CONFIG, ProtocolConfigWriter(underlayAccess)),
+    override fun provideHandlers(
+        rRegistry: CustomizerAwareReadRegistryBuilder,
+        wRegistry: CustomizerAwareWriteRegistryBuilder,
+        underlayAccess: UnderlayAccess
+    ) {
+        rRegistry.addCheckRegistry(ChecksMap.OPENCONFIG_REGISTRY)
+        wRegistry.addCheckRegistry(ChecksMap.OPENCONFIG_REGISTRY)
+        provideReaders(rRegistry, underlayAccess)
+        provideWriters(wRegistry, underlayAccess)
+    }
+
+    private fun provideWriters(wRegistry: CustomizerAwareWriteRegistryBuilder, underlay: UnderlayAccess) {
+        // todo create proper writers once we support routing policies
+        wRegistry.addNoop(IIDs.NE_NETWORKINSTANCE)
+        wRegistry.addNoop(IIDs.NE_NE_INTERINSTANCEPOLICIES)
+        wRegistry.addNoop(IIDs.NE_NE_IN_APPLYPOLICY)
+        wRegistry.addNoop(IIDs.NE_NE_IN_AP_CONFIG)
+
+        wRegistry.addNoop(IIDs.NE_NE_PR_PROTOCOL)
+        wRegistry.addAfter(IIDs.NE_NE_PR_PR_CONFIG, ProtocolConfigWriter(underlay),
                 IIDs.NE_NE_IN_INTERFACE)
 
         // Local aggregates
-        wRegistry.add(GenericWriter(IIDs.NE_NE_PR_PR_LO_AGGREGATE, NoopWriter()))
-        wRegistry.addAfter(GenericWriter(IIDs.NE_NE_PR_PR_LO_AG_CONFIG, LocalAggregateConfigWriter(underlayAccess)),
-                Sets.newHashSet(IIDs.NE_NE_CONFIG, IIDs.NE_NE_PR_PR_BG_GL_CONFIG, IIDs.NE_NE_PR_PR_OS_GL_CONFIG,
-                        IIDs.NE_NE_PR_PR_BG_GL_AF_AF_CONFIG, IIDs.NE_NE_PR_PR_BG_NE_NE_AF_AF_CONFIG))
+        wRegistry.addNoop(IIDs.NE_NE_PR_PR_LO_AGGREGATE)
+        wRegistry.addAfter(IIDs.NE_NE_PR_PR_LO_AG_CONFIG, LocalAggregateConfigWriter(underlay),
+                IIDs.NE_NE_CONFIG, IIDs.NE_NE_PR_PR_BG_GL_CONFIG, IIDs.NE_NE_PR_PR_OS_GL_CONFIG,
+                IIDs.NE_NE_PR_PR_BG_GL_AF_AF_CONFIG, IIDs.NE_NE_PR_PR_BG_NE_NE_AF_AF_CONFIG)
 
-        wRegistry.add(GenericWriter(IIDs.NE_NE_IN_INTERFACE, NoopWriter()))
-        wRegistry.addAfter(GenericWriter(IIDs.NE_NE_IN_IN_CONFIG, VrfInterfaceConfigWriter(underlayAccess)),
+        wRegistry.addNoop(IIDs.NE_NE_IN_INTERFACE)
+        wRegistry.addAfter(IIDs.NE_NE_IN_IN_CONFIG, VrfInterfaceConfigWriter(underlay),
                 IIDs.NE_NE_CONFIG)
 
         // Table connections for VRF
-        wRegistry.add(GenericWriter(IIDs.NE_NE_TABLECONNECTIONS, NoopWriter()))
-        wRegistry.add(GenericWriter(IIDs.NE_NE_TA_TABLECONNECTION, NoopListWriter()))
-        wRegistry.addAfter(GenericWriter(IIDs.NE_NE_TA_TA_CONFIG, TableConnectionConfigWriter(underlayAccess)),
+        wRegistry.addNoop(IIDs.NE_NE_TABLECONNECTIONS)
+        wRegistry.addNoop(IIDs.NE_NE_TA_TABLECONNECTION)
+        wRegistry.addAfter(IIDs.NE_NE_TA_TA_CONFIG, TableConnectionConfigWriter(underlay),
                 /*add after protocol writers*/
-                Sets.newHashSet(IIDs.NE_NE_PR_PR_CONFIG, IIDs.NE_NE_PR_PR_BG_GL_CONFIG, IIDs.NE_NE_PR_PR_OS_GL_CONFIG))
+                IIDs.NE_NE_PR_PR_CONFIG, IIDs.NE_NE_PR_PR_BG_GL_CONFIG, IIDs.NE_NE_PR_PR_OS_GL_CONFIG)
 
-        wRegistry.addAfter(GenericWriter(IIDs.NE_NE_CONFIG, NetworkInstanceConfigWriter(underlayAccess)),
-                setOf(
+        wRegistry.addAfter(IIDs.NE_NE_CONFIG, NetworkInstanceConfigWriter(underlay),
                 /*handle after ifc configuration*/ io.frinx.openconfig.openconfig.interfaces.IIDs.IN_IN_CONFIG,
                 /*also after subinterface*/
-                    io.frinx.openconfig.openconfig.vlan.IIDs.IN_IN_SU_SU_AUG_SUBINTERFACE1_VL_CONFIG))
+                    io.frinx.openconfig.openconfig.vlan.IIDs.IN_IN_SU_SU_AUG_SUBINTERFACE1_VL_CONFIG)
 
-        wRegistry.subtreeAddAfter(Sets.newHashSet<InstanceIdentifier<*>>(
+        wRegistry.subtreeAddAfter(IIDs.NE_NE_CONNECTIONPOINTS, ConnectionPointsWriter(underlay),
+            setOf(
                 RWUtils.cutIdFromStart(IIDs.NE_NE_CO_CONNECTIONPOINT, CONN_PTS_ID),
                 RWUtils.cutIdFromStart(IIDs.NE_NE_CO_CO_CONFIG, CONN_PTS_ID),
                 RWUtils.cutIdFromStart(IIDs.NE_NE_CO_CO_ENDPOINTS, CONN_PTS_ID),
@@ -111,34 +128,34 @@ class Unit(private val registry: TranslationUnitCollector) : NetworkInstanceUnit
                 RWUtils.cutIdFromStart(IIDs.NE_NE_CO_CO_EN_EN_LO_CONFIG, CONN_PTS_ID),
                 RWUtils.cutIdFromStart(IIDs.NE_NE_CO_CO_EN_EN_REMOTE, CONN_PTS_ID),
                 RWUtils.cutIdFromStart(IIDs.NE_NE_CO_CO_EN_EN_RE_CONFIG, CONN_PTS_ID)
-        ), GenericWriter(IIDs.NE_NE_CONNECTIONPOINTS, ConnectionPointsWriter(underlayAccess)),
+            ),
                 /*handle after network instance configuration*/ IIDs.NE_NE_CONFIG)
     }
 
-    override fun provideSpecificReaders(rRegistry: ModifiableReaderRegistryBuilder, underlayAccess: UnderlayAccess) {
+    private fun provideReaders(rRegistry: CustomizerAwareReadRegistryBuilder, underlay: UnderlayAccess) {
+        rRegistry.add(IIDs.NE_NETWORKINSTANCE, NetworkInstanceReader(underlay))
+        rRegistry.add(IIDs.NE_NE_CONFIG, NetworkInstanceConfigReader(underlay))
+        rRegistry.add(IIDs.NE_NE_STATE, NetworkInstanceStateReader(underlay))
 
-        rRegistry.add(GenericConfigListReader(IIDs.NE_NETWORKINSTANCE, NetworkInstanceReader(underlayAccess)))
-        rRegistry.add(GenericConfigReader<Config, ConfigBuilder>(IIDs.NE_NE_CONFIG,
-            NetworkInstanceConfigReader(underlayAccess)))
+        rRegistry.add(IIDs.NE_NE_IN_INTERFACE, VrfInterfaceReader(underlay))
+        rRegistry.add(IIDs.NE_NE_IN_IN_CONFIG, VrfInterfaceConfigReader())
 
-        rRegistry.add(GenericConfigListReader(IIDs.NE_NE_IN_INTERFACE, VrfInterfaceReader(underlayAccess)))
-        rRegistry.add(GenericConfigReader(IIDs.NE_NE_IN_IN_CONFIG, VrfInterfaceConfigReader()))
-
-        rRegistry.add(GenericConfigListReader(IIDs.NE_NE_PR_PROTOCOL, ProtocolReader(underlayAccess)))
+        rRegistry.add(IIDs.NE_NE_PR_PR_CONFIG, ProtocolConfigReader())
+        rRegistry.add(IIDs.NE_NE_PR_PR_STATE, ProtocolStateReader())
+        rRegistry.add(IIDs.NE_NE_PR_PROTOCOL, ProtocolReader(underlay))
 
         // Local aggregates
-        rRegistry.addStructuralReader(IIDs.NE_NE_PR_PR_LOCALAGGREGATES, LocalAggregatesBuilder::class.java)
-        rRegistry.add(GenericConfigListReader(IIDs.NE_NE_PR_PR_LO_AGGREGATE, LocalAggregateReader(underlayAccess)))
-        rRegistry.add(GenericConfigReader(IIDs.NE_NE_PR_PR_LO_AG_CONFIG, LocalAggregateConfigReader(underlayAccess)))
+        rRegistry.add(IIDs.NE_NE_PR_PR_LO_AGGREGATE, LocalAggregateReader(underlay))
+        rRegistry.add(IIDs.NE_NE_PR_PR_LO_AG_CONFIG, LocalAggregateConfigReader(underlay))
 
         // Table connections for VRF
-        rRegistry.addStructuralReader(IIDs.NE_NE_TABLECONNECTIONS, TableConnectionsBuilder::class.java)
-        rRegistry.subtreeAdd(setOf(RWUtils.cutIdFromStart<TableConnection>(IIDs.NE_NE_TA_TA_CONFIG,
-            InstanceIdentifier.create(TableConnection::class.java))),
-                GenericConfigListReader(IIDs.NE_NE_TA_TABLECONNECTION, TableConnectionReader(underlayAccess)))
+        rRegistry.subtreeAdd(IIDs.NE_NE_TA_TABLECONNECTION, TableConnectionReader(underlay),
+            setOf(RWUtils.cutIdFromStart<TableConnection>(IIDs.NE_NE_TA_TA_CONFIG,
+                InstanceIdentifier.create(TableConnection::class.java))))
 
         // Connection points for L2P2p
-        rRegistry.subtreeAdd(Sets.newHashSet<InstanceIdentifier<*>>(
+        rRegistry.subtreeAdd(IIDs.NE_NE_CONNECTIONPOINTS, ConnectionPointsReader(underlay),
+            setOf(
                 RWUtils.cutIdFromStart(IIDs.NE_NE_CO_CONNECTIONPOINT, CONN_PTS_ID),
                 RWUtils.cutIdFromStart(IIDs.NE_NE_CO_CO_CONFIG, CONN_PTS_ID),
                 RWUtils.cutIdFromStart(IIDs.NE_NE_CO_CO_STATE, CONN_PTS_ID),
@@ -151,8 +168,8 @@ class Unit(private val registry: TranslationUnitCollector) : NetworkInstanceUnit
                 RWUtils.cutIdFromStart(IIDs.NE_NE_CO_CO_EN_EN_LO_STATE, CONN_PTS_ID),
                 RWUtils.cutIdFromStart(IIDs.NE_NE_CO_CO_EN_EN_REMOTE, CONN_PTS_ID),
                 RWUtils.cutIdFromStart(IIDs.NE_NE_CO_CO_EN_EN_RE_CONFIG, CONN_PTS_ID),
-                RWUtils.cutIdFromStart(IIDs.NE_NE_CO_CO_EN_EN_RE_STATE, CONN_PTS_ID)),
-                GenericConfigReader(IIDs.NE_NE_CONNECTIONPOINTS, ConnectionPointsReader(underlayAccess)))
+                RWUtils.cutIdFromStart(IIDs.NE_NE_CO_CO_EN_EN_RE_STATE, CONN_PTS_ID))
+            )
     }
 
     override fun toString(): String = "XR 6 (2015-07-30) network-instance translate unit"

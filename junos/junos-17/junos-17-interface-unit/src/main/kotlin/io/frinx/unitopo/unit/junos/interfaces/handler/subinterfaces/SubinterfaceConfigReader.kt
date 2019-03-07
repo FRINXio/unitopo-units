@@ -17,48 +17,41 @@
 package io.frinx.unitopo.unit.junos.interfaces.handler.subinterfaces
 
 import io.fd.honeycomb.translate.read.ReadContext
-import io.fd.honeycomb.translate.read.ReadFailedException
-import io.fd.honeycomb.translate.spi.read.ConfigReaderCustomizer
+import io.frinx.unitopo.ifc.base.handler.subinterfaces.AbstractSubinterfaceConfigReader
 import io.frinx.unitopo.registry.spi.UnderlayAccess
 import io.frinx.unitopo.unit.junos.interfaces.handler.InterfaceReader
+import org.opendaylight.controller.md.sal.common.api.data.LogicalDatastoreType
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.interfaces.rev161222.interfaces.top.interfaces.Interface
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.interfaces.rev161222.subinterfaces.top.subinterfaces.Subinterface
-import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.interfaces.rev161222.subinterfaces.top.subinterfaces.SubinterfaceBuilder
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.interfaces.rev161222.subinterfaces.top.subinterfaces.subinterface.Config
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.interfaces.rev161222.subinterfaces.top.subinterfaces.subinterface.ConfigBuilder
-import org.opendaylight.yangtools.concepts.Builder
-import org.opendaylight.yangtools.yang.binding.DataObject
-import org.opendaylight.controller.md.sal.common.api.data.ReadFailedException as MDSalReadFailed
+import org.opendaylight.yang.gen.v1.http.yang.juniper.net.yang._1._1.jc.configuration.junos._17._3r1._10.rev170101.interfaces_type.UnitKey
+import org.opendaylight.yang.gen.v1.http.yang.juniper.net.yang._1._1.jc.configuration.junos._17._3r1._10.rev170101.juniper.config.interfaces.InterfaceKey
+import org.opendaylight.yangtools.yang.binding.InstanceIdentifier
 import org.opendaylight.yang.gen.v1.http.yang.juniper.net.yang._1._1.jc.configuration.junos._17._3r1._10.rev170101.interfaces_type.Unit as JunosInterfaceUnit
-import org.opendaylight.yangtools.yang.binding.InstanceIdentifier as IID
+import org.opendaylight.yang.gen.v1.http.yang.juniper.net.yang._1._1.jc.configuration.junos._17._3r1._10.rev170101.juniper.config.interfaces.Interface as JunosInterface
 
-class SubinterfaceConfigReader(private val underlayAccess: UnderlayAccess)
-    : ConfigReaderCustomizer<Config, ConfigBuilder> {
+class SubinterfaceConfigReader(underlayAccess: UnderlayAccess)
+    : AbstractSubinterfaceConfigReader<JunosInterfaceUnit>(underlayAccess) {
 
-    override fun getBuilder(instanceIdentifier: IID<Config>): ConfigBuilder {
-        return ConfigBuilder()
-    }
-
-    @Throws(ReadFailedException::class)
     override fun readCurrentAttributes(
-        instanceIdentifier: IID<Config>,
+        instanceIdentifier: InstanceIdentifier<Config>,
         configBuilder: ConfigBuilder,
         readContext: ReadContext
     ) {
-        try {
-            val name = instanceIdentifier.firstKeyOf(Interface::class.java).name
-            val unitId = instanceIdentifier.firstKeyOf(Subinterface::class.java).index
-            InterfaceReader.readUnitCfg(underlayAccess, name, unitId, { configBuilder.fromUnderlay(it) })
-        } catch (e: MDSalReadFailed) {
-            throw ReadFailedException(instanceIdentifier, e)
-        }
+        val ifcName = instanceIdentifier.firstKeyOf(Interface::class.java).name
+        val subIfcIndex = instanceIdentifier.firstKeyOf(Subinterface::class.java).index
+
+        readData(underlayAccess.read(readIid(ifcName, subIfcIndex),
+            LogicalDatastoreType.CONFIGURATION).checkedGet().orNull(),
+            configBuilder, ifcName, subIfcIndex)
     }
 
-    override fun merge(builder: Builder<out DataObject>, config: Config) {
-        (builder as SubinterfaceBuilder).config = config
+    override fun readData(data: JunosInterfaceUnit?, configBuilder: ConfigBuilder, ifcName: String, subIfcIndex: Long) {
+        data?.let { configBuilder.index = data.name.toLong() }
     }
-}
 
-internal fun ConfigBuilder.fromUnderlay(junosUnit: JunosInterfaceUnit) {
-    index = junosUnit.name.toLong()
+    override fun readIid(ifcName: String, subIfcIndex: Long): InstanceIdentifier<JunosInterfaceUnit> =
+        InterfaceReader.IFCS.child(JunosInterface::class.java, InterfaceKey(ifcName))
+            .child(JunosInterfaceUnit::class.java, UnitKey(subIfcIndex.toString()))
 }

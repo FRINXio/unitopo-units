@@ -58,11 +58,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>common-handlers</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>io.frinx.uniconfig</groupId>
             <artifactId>frinx-unified-topology</artifactId>
             <type>xml</type>

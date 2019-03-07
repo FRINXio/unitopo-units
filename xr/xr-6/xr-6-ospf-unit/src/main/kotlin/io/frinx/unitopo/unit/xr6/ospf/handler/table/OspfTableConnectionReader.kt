@@ -17,9 +17,11 @@
 package io.frinx.unitopo.unit.xr6.ospf.handler.table
 
 import io.fd.honeycomb.translate.read.ReadContext
+import io.fd.honeycomb.translate.spi.builder.BasicCheck
+import io.fd.honeycomb.translate.spi.builder.Check
+import io.fd.honeycomb.translate.spi.read.ConfigListReaderCustomizer
 import io.frinx.translate.unit.commons.handler.spi.CompositeListReader
 import io.frinx.openconfig.network.instance.NetworInstance
-import io.frinx.unitopo.handlers.l3vrf.L3VrfListReader
 import io.frinx.unitopo.registry.spi.UnderlayAccess
 import io.frinx.unitopo.unit.xr6.ospf.handler.OspfProtocolReader
 import org.opendaylight.yang.gen.v1.http.cisco.com.ns.yang.cisco.ios.xr.ipv4.ospf.cfg.rev151109.OspfRedistProtocol
@@ -38,10 +40,15 @@ import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.policy.types.
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.policy.types.rev160512.OSPF
 import org.opendaylight.yangtools.yang.binding.InstanceIdentifier
 
-class OspfTableConnectionReader(private val access: UnderlayAccess)
-    : L3VrfListReader.L3VrfConfigListReader<TableConnection, TableConnectionKey, TableConnectionBuilder>,
+class OspfTableConnectionReader(private val access: UnderlayAccess) :
+    ConfigListReaderCustomizer<TableConnection, TableConnectionKey, TableConnectionBuilder>,
     CompositeListReader.Child<TableConnection, TableConnectionKey, TableConnectionBuilder> {
-    override fun readCurrentAttributesForType(
+
+    override fun getCheck(): Check {
+        return BasicCheck.emptyCheck()
+    }
+
+    override fun readCurrentAttributes(
         id: InstanceIdentifier<TableConnection>,
         b: TableConnectionBuilder,
         readContext: ReadContext
@@ -63,7 +70,7 @@ class OspfTableConnectionReader(private val access: UnderlayAccess)
 
     override fun getBuilder(id: InstanceIdentifier<TableConnection>) = TableConnectionBuilder()
 
-    override fun getAllIdsForType(
+    override fun getAllIds(
         id: InstanceIdentifier<TableConnection>,
         readContext: ReadContext
     ): List<TableConnectionKey> {

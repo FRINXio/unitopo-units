@@ -15,7 +15,6 @@
  */
 
 package org.opendaylight.yang.gen.v1.http.yang.juniper.net.yang._1._1.jc.configuration.junos._17._3r1._10.rev170101.interfaces_type.unit.family.inet.address.multipoint.destination;
-import org.opendaylight.yang.gen.v1.http.yang.juniper.net.yang._1._1.jc.configuration.junos._17._3r1._10.rev170101.interfaces_type.unit.family.inet.address.multipoint.destination.OamLiveness.DownCount;
 
 /**
  * The purpose of generated class in src/main/java for Union types is to create new instances of unions from a string representation.

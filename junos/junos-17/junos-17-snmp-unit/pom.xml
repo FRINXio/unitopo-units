@@ -70,6 +70,12 @@
             <artifactId>yang-binding</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>io.frinx.translate.unit.commons</groupId>
+            <artifactId>handlers</artifactId>
+            <version>${translate.unit.commons.version}</version>
+        </dependency>
+
         <!-- Netconf testing dependencies-->
         <dependency>
             <groupId>${project.groupId}</groupId>

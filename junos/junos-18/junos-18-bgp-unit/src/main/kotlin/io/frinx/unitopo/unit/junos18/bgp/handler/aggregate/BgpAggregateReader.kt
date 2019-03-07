@@ -17,11 +17,12 @@
 package io.frinx.unitopo.unit.junos18.bgp.handler.aggregate
 
 import io.fd.honeycomb.translate.read.ReadContext
+import io.fd.honeycomb.translate.spi.builder.Check
 import io.frinx.openconfig.network.instance.NetworInstance
+import io.frinx.translate.unit.commons.handler.spi.ChecksMap
 import io.frinx.translate.unit.commons.handler.spi.CompositeListReader
 import io.frinx.unitopo.registry.spi.UnderlayAccess
 import io.frinx.unitopo.unit.junos18.bgp.handler.BgpProtocolReader
-import io.frinx.unitopo.handlers.bgp.BgpListReader
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.local.routing.rev170515.local.aggregate.top.local.aggregates.Aggregate
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.local.routing.rev170515.local.aggregate.top.local.aggregates.AggregateBuilder
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.local.routing.rev170515.local.aggregate.top.local.aggregates.AggregateKey
@@ -34,15 +35,18 @@ import org.opendaylight.yang.gen.v1.http.yang.juniper.net.junos.conf.routing.ins
 import org.opendaylight.yangtools.yang.binding.InstanceIdentifier as IID
 
 class BgpAggregateReader(private val access: UnderlayAccess) :
-    BgpListReader.BgpConfigListReader<Aggregate, AggregateKey, AggregateBuilder>,
     CompositeListReader.Child<Aggregate, AggregateKey, AggregateBuilder> {
+
+    override fun getCheck(): Check {
+        return ChecksMap.PathCheck.Protocol.BGP
+    }
 
     override fun getBuilder(id: IID<Aggregate>): AggregateBuilder {
         // NOOP
         throw UnsupportedOperationException("Should not be invoked")
     }
 
-    override fun getAllIdsForType(
+    override fun getAllIds(
         id: IID<Aggregate>,
         readContext: ReadContext
     ): List<AggregateKey> {
@@ -63,7 +67,7 @@ class BgpAggregateReader(private val access: UnderlayAccess) :
         return parseJunosAggregates(junosAggregate)
     }
 
-    override fun readCurrentAttributesForType(
+    override fun readCurrentAttributes(
         IID: IID<Aggregate>,
         aggregateBuilder: AggregateBuilder,
         readContext: ReadContext

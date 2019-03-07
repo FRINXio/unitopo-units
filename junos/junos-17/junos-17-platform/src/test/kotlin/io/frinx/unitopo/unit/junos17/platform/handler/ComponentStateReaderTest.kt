@@ -16,23 +16,23 @@
 
 package io.frinx.unitopo.unit.junos17.platform.handler
 
-import java.util.Optional
 import io.frinx.unitopo.registry.spi.UnderlayAccess
 import org.junit.Assert
 import org.junit.Test
-import org.opendaylight.yangtools.yang.data.api.schema.ContainerNode
-import org.opendaylight.yangtools.yang.model.api.SchemaPath
 import org.opendaylight.controller.config.util.xml.XmlUtil
 import org.opendaylight.mdsal.binding.generator.impl.ModuleInfoBackedContext
 import org.opendaylight.netconf.api.NetconfMessage
 import org.opendaylight.netconf.sal.connect.netconf.schema.mapping.NetconfMessageTransformer
 import org.opendaylight.netconf.sal.connect.netconf.util.NetconfMessageTransformUtil
-import org.opendaylight.yangtools.yang.binding.YangModuleInfo
-import org.opendaylight.yangtools.yang.binding.util.BindingReflections
-import org.opendaylight.yangtools.yang.model.api.SchemaContext
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.platform.rev161222.platform.component.top.components.component.StateBuilder
 import org.opendaylight.yang.gen.v1.http.yang.juniper.net.yang._1._1.jrpc.show.version.junos._17._3r1._10.rev170101.GetSoftwareInformationInput
+import org.opendaylight.yangtools.yang.binding.YangModuleInfo
+import org.opendaylight.yangtools.yang.binding.util.BindingReflections
 import org.opendaylight.yangtools.yang.common.QName
+import org.opendaylight.yangtools.yang.data.api.schema.ContainerNode
+import org.opendaylight.yangtools.yang.model.api.SchemaContext
+import org.opendaylight.yangtools.yang.model.api.SchemaPath
+import java.util.Optional
 
 class ComponentStateReaderTest {
 

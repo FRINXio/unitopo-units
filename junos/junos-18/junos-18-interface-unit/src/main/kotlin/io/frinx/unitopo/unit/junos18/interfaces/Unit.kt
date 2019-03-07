@@ -21,30 +21,27 @@ import io.fd.honeycomb.translate.impl.read.GenericConfigListReader
 import io.fd.honeycomb.translate.impl.read.GenericConfigReader
 import io.fd.honeycomb.translate.impl.write.GenericListWriter
 import io.fd.honeycomb.translate.impl.write.GenericWriter
-import io.fd.honeycomb.translate.read.registry.ModifiableReaderRegistryBuilder
+import io.fd.honeycomb.translate.spi.builder.CustomizerAwareReadRegistryBuilder
+import io.fd.honeycomb.translate.spi.builder.CustomizerAwareWriteRegistryBuilder
 import io.fd.honeycomb.translate.util.RWUtils
-import io.fd.honeycomb.translate.write.registry.ModifiableWriterRegistryBuilder
 import io.frinx.openconfig.openconfig.interfaces.IIDs
-import io.frinx.openconfig.openconfig.vlan.IIDs as VlanIIDs
-import io.frinx.openconfig.openconfig._if.ip.IIDs as IPIIDs
 import io.frinx.unitopo.registry.api.TranslationUnitCollector
 import io.frinx.unitopo.registry.spi.TranslateUnit
 import io.frinx.unitopo.registry.spi.UnderlayAccess
 import io.frinx.unitopo.unit.junos18.interfaces.handler.InterfaceConfigReader
 import io.frinx.unitopo.unit.junos18.interfaces.handler.InterfaceConfigWriter
 import io.frinx.unitopo.unit.junos18.interfaces.handler.InterfaceReader
-import io.frinx.unitopo.unit.junos18.interfaces.handler.subinterfaces.SubinterfaceConfigWriter
-import io.frinx.unitopo.unit.junos18.interfaces.handler.subinterfaces.SubinterfaceVlanConfigWriter
-import io.frinx.unitopo.unit.junos18.interfaces.handler.subinterfaces.SubinterfaceAddressConfigWriter
-import io.frinx.unitopo.unit.junos18.interfaces.handler.subinterfaces.SubinterfaceVrrpGroupConfigWriter
-import io.frinx.unitopo.unit.junos18.interfaces.handler.subinterfaces.SubinterfaceReader
-import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.interfaces.rev161222.subinterfaces.top.subinterfaces.subinterface.Config
-import io.frinx.unitopo.unit.junos18.interfaces.handler.subinterfaces.SubinterfaceConfigReader
-import io.frinx.unitopo.unit.junos18.interfaces.handler.subinterfaces.SubinterfaceVlanConfigReader
-import io.frinx.unitopo.unit.junos18.interfaces.handler.subinterfaces.SubinterfaceAddressReader
 import io.frinx.unitopo.unit.junos18.interfaces.handler.subinterfaces.SubinterfaceAddressConfigReader
-import io.frinx.unitopo.unit.junos18.interfaces.handler.subinterfaces.SubinterfaceVrrpGroupReader
+import io.frinx.unitopo.unit.junos18.interfaces.handler.subinterfaces.SubinterfaceAddressConfigWriter
+import io.frinx.unitopo.unit.junos18.interfaces.handler.subinterfaces.SubinterfaceAddressReader
+import io.frinx.unitopo.unit.junos18.interfaces.handler.subinterfaces.SubinterfaceConfigReader
+import io.frinx.unitopo.unit.junos18.interfaces.handler.subinterfaces.SubinterfaceConfigWriter
+import io.frinx.unitopo.unit.junos18.interfaces.handler.subinterfaces.SubinterfaceReader
+import io.frinx.unitopo.unit.junos18.interfaces.handler.subinterfaces.SubinterfaceVlanConfigReader
+import io.frinx.unitopo.unit.junos18.interfaces.handler.subinterfaces.SubinterfaceVlanConfigWriter
 import io.frinx.unitopo.unit.junos18.interfaces.handler.subinterfaces.SubinterfaceVrrpGroupConfigReader
+import io.frinx.unitopo.unit.junos18.interfaces.handler.subinterfaces.SubinterfaceVrrpGroupConfigWriter
+import io.frinx.unitopo.unit.junos18.interfaces.handler.subinterfaces.SubinterfaceVrrpGroupReader
 import io.frinx.unitopo.unit.utils.NoopListWriter
 import io.frinx.unitopo.unit.utils.NoopWriter
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.interfaces.ip.rev161222.Address1Builder
@@ -54,16 +51,19 @@ import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.interfaces.ip
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.interfaces.ip.rev161222.ipv4.top.ipv4.AddressesBuilder
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.interfaces.rev161222.interfaces.top.InterfacesBuilder
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.interfaces.rev161222.subinterfaces.top.SubinterfacesBuilder
-import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.vlan.rev170714.Subinterface1Builder as SubinterfaceVlanAugBuilder
+import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.interfaces.rev161222.subinterfaces.top.subinterfaces.subinterface.Config
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.vlan.rev170714.vlan.logical.top.VlanBuilder
 import org.opendaylight.yangtools.yang.binding.InstanceIdentifier
+import io.frinx.openconfig.openconfig._if.ip.IIDs as IPIIDs
+import io.frinx.openconfig.openconfig.vlan.IIDs as VlanIIDs
+import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.interfaces.ip.rev161222.`$YangModuleInfoImpl` as IPYangInfo
+import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.interfaces.juniper.extention.rev181204.`$YangModuleInfoImpl` as Config1YangModuleInfo
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.interfaces.rev161222.`$YangModuleInfoImpl` as InterfacesYangInfo
+import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.vlan.rev170714.Subinterface1Builder as SubinterfaceVlanAugBuilder
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.vlan.rev170714.`$YangModuleInfoImpl` as VlanYangInfo
 import org.opendaylight.yang.gen.v1.http.yang.juniper.net.junos.conf.interfaces.rev180101.`$YangModuleInfoImpl` as UnderlayInterfacesYangInfo
 import org.opendaylight.yang.gen.v1.http.yang.juniper.net.junos.conf.root.rev180101.`$YangModuleInfoImpl` as UnderlayConfRootYangModuleInfo
 import org.opendaylight.yang.gen.v1.urn.ietf.params.xml.ns.yang.iana._if.type.rev140508.`$YangModuleInfoImpl` as IanaIfTypeYangInfo
-import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.interfaces.ip.rev161222.`$YangModuleInfoImpl` as IPYangInfo
-import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.interfaces.juniper.extention.rev181204.`$YangModuleInfoImpl` as Config1YangModuleInfo
 
 class Unit(private val registry: TranslationUnitCollector) : TranslateUnit {
     private var reg: TranslationUnitCollector.Registration? = null
@@ -91,15 +91,15 @@ class Unit(private val registry: TranslationUnitCollector) : TranslateUnit {
     override fun getRpcs(underlayAccess: UnderlayAccess) = emptySet<RpcService<*, *>>()
 
     override fun provideHandlers(
-        rRegistry: ModifiableReaderRegistryBuilder,
-        wRegistry: ModifiableWriterRegistryBuilder,
+        rRegistry: CustomizerAwareReadRegistryBuilder,
+        wRegistry: CustomizerAwareWriteRegistryBuilder,
         underlayAccess: UnderlayAccess
     ) {
         provideReaders(rRegistry, underlayAccess)
         provideWriters(wRegistry, underlayAccess)
     }
 
-    private fun provideWriters(wRegistry: ModifiableWriterRegistryBuilder, underlayAccess: UnderlayAccess) {
+    private fun provideWriters(wRegistry: CustomizerAwareWriteRegistryBuilder, underlayAccess: UnderlayAccess) {
         wRegistry.add(GenericListWriter(IIDs.IN_INTERFACE, NoopListWriter()))
         wRegistry.add(GenericWriter(IIDs.IN_IN_CONFIG, InterfaceConfigWriter(underlayAccess)))
 
@@ -132,7 +132,7 @@ class Unit(private val registry: TranslationUnitCollector) : TranslateUnit {
                 SubinterfaceVrrpGroupConfigWriter(underlayAccess)))
     }
 
-    private fun provideReaders(rRegistry: ModifiableReaderRegistryBuilder, underlayAccess: UnderlayAccess) {
+    private fun provideReaders(rRegistry: CustomizerAwareReadRegistryBuilder, underlayAccess: UnderlayAccess) {
         rRegistry.addStructuralReader(IIDs.INTERFACES, InterfacesBuilder::class.java)
         rRegistry.add(GenericConfigListReader(IIDs.IN_INTERFACE, InterfaceReader(underlayAccess)))
         rRegistry.add(GenericConfigReader(IIDs.IN_IN_CONFIG, InterfaceConfigReader(underlayAccess)))

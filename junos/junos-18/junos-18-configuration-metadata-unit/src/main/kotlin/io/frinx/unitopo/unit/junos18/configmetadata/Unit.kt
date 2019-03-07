@@ -18,8 +18,8 @@ package io.frinx.unitopo.unit.junos18.configmetadata
 
 import io.fd.honeycomb.rpc.RpcService
 import io.fd.honeycomb.translate.impl.read.GenericOperReader
-import io.fd.honeycomb.translate.read.registry.ModifiableReaderRegistryBuilder
-import io.fd.honeycomb.translate.write.registry.ModifiableWriterRegistryBuilder
+import io.fd.honeycomb.translate.spi.builder.CustomizerAwareReadRegistryBuilder
+import io.fd.honeycomb.translate.spi.builder.CustomizerAwareWriteRegistryBuilder
 import io.frinx.openconfig.openconfig.configuration.metadata.IIDs
 import io.frinx.unitopo.registry.api.TranslationUnitCollector
 import io.frinx.unitopo.registry.spi.TranslateUnit
@@ -27,8 +27,8 @@ import io.frinx.unitopo.registry.spi.UnderlayAccess
 import io.frinx.unitopo.unit.junos18.configmetadata.handler.ConfigMetadataReader
 import org.opendaylight.yangtools.yang.binding.YangModuleInfo
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.configuration.metadata.rev180731.`$YangModuleInfoImpl` as OpenconfigConfigMetadata
-import org.opendaylight.yang.gen.v1.http.yang.juniper.net.junos.rpc.system.rev180101.`$YangModuleInfoImpl` as JunosRpcSystemYangInfo
 import org.opendaylight.yang.gen.v1.http.yang.juniper.net.junos.common.types.rev180101.`$YangModuleInfoImpl` as JunosCommonTypesYangInfo
+import org.opendaylight.yang.gen.v1.http.yang.juniper.net.junos.rpc.system.rev180101.`$YangModuleInfoImpl` as JunosRpcSystemYangInfo
 
 class Unit(private val registry: TranslationUnitCollector) : TranslateUnit {
 
@@ -42,8 +42,8 @@ class Unit(private val registry: TranslationUnitCollector) : TranslateUnit {
     )
 
     override fun provideHandlers(
-        rRegistry: ModifiableReaderRegistryBuilder,
-        wRegistry: ModifiableWriterRegistryBuilder,
+        rRegistry: CustomizerAwareReadRegistryBuilder,
+        wRegistry: CustomizerAwareWriteRegistryBuilder,
         context: UnderlayAccess
     ) =
             provideReaders(rRegistry, context)
@@ -60,7 +60,7 @@ class Unit(private val registry: TranslationUnitCollector) : TranslateUnit {
 
     override fun getRpcs(context: UnderlayAccess) = emptySet<RpcService<*, *>>()
 
-    private fun provideReaders(rRegistry: ModifiableReaderRegistryBuilder, underlayAccess: UnderlayAccess) {
+    private fun provideReaders(rRegistry: CustomizerAwareReadRegistryBuilder, underlayAccess: UnderlayAccess) {
         rRegistry.add(GenericOperReader(IIDs.CONFIGURATIONMETADATA, ConfigMetadataReader(underlayAccess)))
     }
 

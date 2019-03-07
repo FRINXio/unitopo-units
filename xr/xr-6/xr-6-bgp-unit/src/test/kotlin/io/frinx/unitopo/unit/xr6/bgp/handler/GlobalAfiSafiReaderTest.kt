@@ -36,19 +36,19 @@ class GlobalAfiSafiReaderTest : AbstractNetconfHandlerTest() {
     @Test
     fun testGlobal() {
         val afiSafi = GlobalAfiSafiReader.parseAfiSafi(parseGetCfgResponse(DATA_NODES,
-            BgpProtocolReader.UNDERLAY_BGP.child(Instance::class.java, InstanceKey(CiscoIosXrString("default")))),
+                BgpProtocolReader.UNDERLAY_BGP.child(Instance::class.java, InstanceKey(CiscoIosXrString("default")))),
             NetworkInstanceKey("default"))
         Assert.assertEquals(listOf(IPV4UNICAST::class.java, IPV6UNICAST::class.java, L3VPNIPV4UNICAST::class.java,
             L3VPNIPV6UNICAST::class.java)
-            .map { AfiSafiKey(it) }, afiSafi.sortedBy { it.afiSafiName.simpleName })
+                .map { AfiSafiKey(it) }, afiSafi.sortedBy { it.afiSafiName.simpleName })
 
         val afiSafiVrf = GlobalAfiSafiReader.parseAfiSafi(parseGetCfgResponse(DATA_NODES,
-            BgpProtocolReader.UNDERLAY_BGP.child(Instance::class.java, InstanceKey(CiscoIosXrString("default")))),
+                BgpProtocolReader.UNDERLAY_BGP.child(Instance::class.java, InstanceKey(CiscoIosXrString("default")))),
             NetworkInstanceKey("abcd"))
         Assert.assertEquals(listOf(IPV4UNICAST::class.java).map { AfiSafiKey(it) }, afiSafiVrf)
 
         val afiSafiVrfEmpty = GlobalAfiSafiReader.parseAfiSafi(parseGetCfgResponse(DATA_NODES,
-            BgpProtocolReader.UNDERLAY_BGP.child(Instance::class.java, InstanceKey(CiscoIosXrString("default")))),
+                BgpProtocolReader.UNDERLAY_BGP.child(Instance::class.java, InstanceKey(CiscoIosXrString("default")))),
             NetworkInstanceKey("NONEXISTING"))
         Assert.assertEquals(emptyList<AfiSafiKey>(), afiSafiVrfEmpty)
     }

@@ -74,7 +74,9 @@ class InterfaceDampeningConfigWriter(private val underlayAccess: UnderlayAccess)
         dataBefore: Config,
         writeContext: WriteContext
     ) {
-        underlayAccess.delete(getUnderlayId(id))
+        if (dataBefore.isEnabled) {
+            underlayAccess.delete(getUnderlayId(id))
+        }
     }
 
     private fun getUnderlayId(id: InstanceIdentifier<Config>):
@@ -89,8 +91,8 @@ class InterfaceDampeningConfigWriter(private val underlayAccess: UnderlayAccess)
 
 private fun DampeningBuilder.formOpenConfig(data: Config): DampeningBuilder {
     halfLife = data.halfLife
-    suppressTime = data.suppress
-    suppressThreshold = data.maxSuppress
+    suppressTime = data.maxSuppress
+    suppressThreshold = data.suppress
     reuseThreshold = data.reuse
     args = when {
         halfLife == null -> Dampening.Args.DefaultValues

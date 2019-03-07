@@ -16,94 +16,68 @@
 
 package io.frinx.unitopo.unit.xr6.interfaces.handler
 
-import io.fd.honeycomb.translate.spi.write.WriterCustomizer
-import io.fd.honeycomb.translate.write.WriteContext
+import io.frinx.unitopo.ifc.base.handler.AbstractInterfaceConfigWriter
 import io.frinx.unitopo.registry.spi.UnderlayAccess
 import org.opendaylight.yang.gen.v1.http.cisco.com.ns.yang.cisco.ios.xr.ifmgr.cfg.rev150730.InterfaceActive
 import org.opendaylight.yang.gen.v1.http.cisco.com.ns.yang.cisco.ios.xr.ifmgr.cfg.rev150730._interface.configurations.InterfaceConfiguration
 import org.opendaylight.yang.gen.v1.http.cisco.com.ns.yang.cisco.ios.xr.ifmgr.cfg.rev150730._interface.configurations.InterfaceConfigurationBuilder
 import org.opendaylight.yang.gen.v1.http.cisco.com.ns.yang.cisco.ios.xr.ifmgr.cfg.rev150730._interface.configurations.InterfaceConfigurationKey
+import org.opendaylight.yang.gen.v1.http.cisco.com.ns.yang.cisco.ios.xr.ifmgr.cfg.rev150730._interface.configurations._interface.configuration.MtusBuilder
+import org.opendaylight.yang.gen.v1.http.cisco.com.ns.yang.cisco.ios.xr.ifmgr.cfg.rev150730._interface.configurations._interface.configuration.mtus.MtuBuilder
+import org.opendaylight.yang.gen.v1.http.cisco.com.ns.yang.cisco.xr.types.rev150629.CiscoIosXrString
 import org.opendaylight.yang.gen.v1.http.cisco.com.ns.yang.cisco.xr.types.rev150629.InterfaceName
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.interfaces.rev161222.interfaces.top.interfaces.Interface
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.interfaces.rev161222.interfaces.top.interfaces._interface.Config
+import org.opendaylight.yang.gen.v1.urn.ietf.params.xml.ns.yang.iana._if.type.rev140508.Ieee8023adLag
 import org.opendaylight.yang.gen.v1.urn.ietf.params.xml.ns.yang.iana._if.type.rev140508.SoftwareLoopback
 import org.opendaylight.yang.gen.v1.urn.ietf.params.xml.ns.yang.ietf.interfaces.rev140508.InterfaceType
 import org.opendaylight.yangtools.yang.binding.InstanceIdentifier
 
-class InterfaceConfigWriter(private val underlayAccess: UnderlayAccess) : WriterCustomizer<Config> {
+class InterfaceConfigWriter(underlayAccess: UnderlayAccess) :
+    AbstractInterfaceConfigWriter<InterfaceConfiguration>(underlayAccess) {
 
-    override fun writeCurrentAttributes(id: InstanceIdentifier<Config>, dataAfter: Config, writeContext: WriteContext) {
-        val (underlayId, underlayIfcCfg) = getData(id, dataAfter, null)
-
-        underlayAccess.put(underlayId, underlayIfcCfg)
+    override fun getData(data: Config): InterfaceConfiguration {
+        val ifcCfgBuilder = InterfaceConfigurationBuilder()
+        ifcCfgBuilder.toUnderlay(data)
+        return ifcCfgBuilder.build()
     }
 
-    override fun deleteCurrentAttributes(
-        id: InstanceIdentifier<Config>,
-        dataBefore: Config,
-        writeContext: WriteContext
-    ) {
-        val (_, _, underlayId) = getId(id)
-
-        underlayAccess.delete(underlayId)
-    }
-
-    override fun updateCurrentAttributes(
-        id: InstanceIdentifier<Config>,
-        dataBefore: Config,
-        dataAfter: Config,
-        writeContext: WriteContext
-    ) {
-        val (_, _, underlayId) = getId(id)
-        val before = underlayAccess.read(underlayId)
-                .checkedGet()
-                .orNull()
-
-        val (_, underlayIfcCfg) = getData(id, dataAfter, before)
-
-        underlayAccess.put(underlayId, underlayIfcCfg)
-    }
-
-    private fun getData(id: InstanceIdentifier<Config>, dataAfter: Config, underlayBefore: InterfaceConfiguration?):
-            Pair<InstanceIdentifier<InterfaceConfiguration>, InterfaceConfiguration> {
-        val (interfaceActive, ifcName, underlayId) = getId(id)
-
-        val ifcCfgBuilder =
-                if (underlayBefore != null) InterfaceConfigurationBuilder(underlayBefore) else
-                    InterfaceConfigurationBuilder()
-
-        if (dataAfter.shutdown()) ifcCfgBuilder.isShutdown = true else
-            ifcCfgBuilder.isShutdown = null
-
-        if (isVirtualInterface(dataAfter.type)) ifcCfgBuilder.isInterfaceVirtual = true
-
-        val underlayIfcCfg = ifcCfgBuilder
-                .setInterfaceName(ifcName)
-                .setActive(interfaceActive)
-                .setDescription(dataAfter.description)
-                .setInterfaceModeNonPhysical(null)
+    private fun InterfaceConfigurationBuilder.toUnderlay(data: Config) {
+        interfaceName = InterfaceName(data.name)
+        active = InterfaceActive("act")
+        description = data.description
+        interfaceModeNonPhysical = null
+        if (data.shutdown()) {
+            isShutdown = true
+        } else {
+            isShutdown = null
+        }
+        if (isVirtualInterface(data.type)) {
+            isInterfaceVirtual = true
+        }
+        if (data.mtu != null) {
+            val mtu = MtuBuilder().setMtu(data.mtu.toLong())
+                .setOwner(CiscoIosXrString("etherbundle"))
                 .build()
-
-        return Pair(underlayId, underlayIfcCfg)
+            mtus = MtusBuilder().setMtu(listOf(mtu)).build()
+        }
     }
 
     private fun Config.shutdown() = isEnabled == null || !isEnabled
 
-    private fun getId(id: InstanceIdentifier<Config>):
-            Triple<InterfaceActive, InterfaceName, InstanceIdentifier<InterfaceConfiguration>> {
+    override fun getIid(id: InstanceIdentifier<Config>): InstanceIdentifier<InterfaceConfiguration> {
         // TODO supporting only "act" interfaces
 
         val interfaceActive = InterfaceActive("act")
         val ifcName = InterfaceName(id.firstKeyOf(Interface::class.java).name)
 
-        val underlayId = InterfaceReader.IFC_CFGS
+        return InterfaceReader.IFC_CFGS
                 .child(InterfaceConfiguration::class.java, InterfaceConfigurationKey(interfaceActive, ifcName))
-        return Triple(interfaceActive, ifcName, underlayId)
     }
 
     companion object {
         private fun isVirtualInterface(type: Class<out InterfaceType>): Boolean {
-            return type == SoftwareLoopback::class.java
+            return type == SoftwareLoopback::class.java || type == Ieee8023adLag::class.java
         }
     }
 }

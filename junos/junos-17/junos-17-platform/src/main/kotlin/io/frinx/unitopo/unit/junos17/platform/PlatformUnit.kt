@@ -17,18 +17,17 @@
 package io.frinx.unitopo.unit.junos17.platform
 
 import io.fd.honeycomb.rpc.RpcService
-import io.frinx.openconfig.openconfig.platform.IIDs
 import io.fd.honeycomb.translate.impl.read.GenericOperListReader
 import io.fd.honeycomb.translate.impl.read.GenericOperReader
-import io.fd.honeycomb.translate.read.registry.ModifiableReaderRegistryBuilder
-import io.fd.honeycomb.translate.write.registry.ModifiableWriterRegistryBuilder
+import io.fd.honeycomb.translate.spi.builder.CustomizerAwareReadRegistryBuilder
+import io.fd.honeycomb.translate.spi.builder.CustomizerAwareWriteRegistryBuilder
+import io.frinx.openconfig.openconfig.platform.IIDs
 import io.frinx.unitopo.registry.api.TranslationUnitCollector
 import io.frinx.unitopo.registry.spi.TranslateUnit
 import io.frinx.unitopo.registry.spi.UnderlayAccess
 import io.frinx.unitopo.unit.junos17.platform.handler.ComponentConfigReader
 import io.frinx.unitopo.unit.junos17.platform.handler.ComponentReader
 import io.frinx.unitopo.unit.junos17.platform.handler.ComponentStateReader
-
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.platform.rev161222.platform.component.top.ComponentsBuilder
 import org.opendaylight.yangtools.yang.binding.YangModuleInfo
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.platform.rev161222.`$YangModuleInfoImpl` as OpenconfigPlatformModule
@@ -58,19 +57,19 @@ class PlatformUnit(private val registry: TranslationUnitCollector) : TranslateUn
     override fun getRpcs(context: UnderlayAccess) = emptySet<RpcService<*, *>>()
 
     override fun provideHandlers(
-        rRegistry: ModifiableReaderRegistryBuilder,
-        wRegistry: ModifiableWriterRegistryBuilder,
+        rRegistry: CustomizerAwareReadRegistryBuilder,
+        wRegistry: CustomizerAwareWriteRegistryBuilder,
         access: UnderlayAccess
     ) {
         provideReaders(rRegistry, access)
         provideWriters(wRegistry, access)
     }
 
-    private fun provideWriters(wRegistry: ModifiableWriterRegistryBuilder, access: UnderlayAccess) {
+    private fun provideWriters(wRegistry: CustomizerAwareWriteRegistryBuilder, access: UnderlayAccess) {
         // no-op
     }
 
-    private fun provideReaders(rRegistry: ModifiableReaderRegistryBuilder, access: UnderlayAccess) {
+    private fun provideReaders(rRegistry: CustomizerAwareReadRegistryBuilder, access: UnderlayAccess) {
         rRegistry.addStructuralReader(IIDs.COMPONENTS, ComponentsBuilder::class.java)
         rRegistry.add(GenericOperListReader(IIDs.CO_COMPONENT, ComponentReader(access)))
         rRegistry.add(GenericOperReader(IIDs.CO_CO_CONFIG, ComponentConfigReader()))

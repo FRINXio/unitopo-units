@@ -20,9 +20,9 @@ import io.fd.honeycomb.rpc.RpcService
 import io.fd.honeycomb.translate.impl.read.GenericConfigListReader
 import io.fd.honeycomb.translate.impl.read.GenericConfigReader
 import io.fd.honeycomb.translate.impl.write.GenericWriter
-import io.fd.honeycomb.translate.read.registry.ModifiableReaderRegistryBuilder
+import io.fd.honeycomb.translate.spi.builder.CustomizerAwareReadRegistryBuilder
+import io.fd.honeycomb.translate.spi.builder.CustomizerAwareWriteRegistryBuilder
 import io.fd.honeycomb.translate.util.RWUtils
-import io.fd.honeycomb.translate.write.registry.ModifiableWriterRegistryBuilder
 import io.frinx.openconfig.openconfig.network.instance.IIDs
 import io.frinx.unitopo.registry.api.TranslationUnitCollector
 import io.frinx.unitopo.registry.spi.TranslateUnit
@@ -32,13 +32,13 @@ import io.frinx.unitopo.unit.junos17.policy.forwarding.handler.PolicyForwardingI
 import io.frinx.unitopo.unit.junos17.policy.forwarding.handler.PolicyForwardingInterfaceReader
 import io.frinx.unitopo.unit.utils.NoopListWriter
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.policy.forwarding.rev170621.pf.interfaces.structural.InterfacesBuilder
+import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.policy.forwarding.rev170621.pf.interfaces.structural.interfaces._interface.Config
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.policy.forwarding.rev170621.policy.forwarding.top.PolicyForwardingBuilder
+import org.opendaylight.yangtools.yang.binding.InstanceIdentifier
 import org.opendaylight.yangtools.yang.binding.YangModuleInfo
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.network.instance.pf.interfaces.extension.juniper.rev171109.`$YangModuleInfoImpl` as PfExtensionModuleInfo
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.policy.forwarding.rev170621.`$YangModuleInfoImpl` as PolicyModuleInfo
 import org.opendaylight.yang.gen.v1.http.yang.juniper.net.yang._1._1.jc.configuration.junos._17._3r1._10.rev170101.`$YangModuleInfoImpl` as JunosYangInfo
-import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.policy.forwarding.rev170621.pf.interfaces.structural.interfaces._interface.Config
-import org.opendaylight.yangtools.yang.binding.InstanceIdentifier
 
 class PolicyFwdUnit(private val registry: TranslationUnitCollector) : TranslateUnit {
 
@@ -64,22 +64,22 @@ class PolicyFwdUnit(private val registry: TranslationUnitCollector) : TranslateU
     override fun getUnderlayYangSchemas(): Set<YangModuleInfo> = setOf(JunosYangInfo.getInstance())
 
     override fun provideHandlers(
-        rRegistry: ModifiableReaderRegistryBuilder,
-        wRegistry: ModifiableWriterRegistryBuilder,
+        rRegistry: CustomizerAwareReadRegistryBuilder,
+        wRegistry: CustomizerAwareWriteRegistryBuilder,
         underlayAccess: UnderlayAccess
     ) {
         provideReaders(rRegistry, underlayAccess)
         provideWriters(wRegistry, underlayAccess)
     }
 
-    private fun provideWriters(wRegistry: ModifiableWriterRegistryBuilder, underlayAccess: UnderlayAccess) {
+    private fun provideWriters(wRegistry: CustomizerAwareWriteRegistryBuilder, underlayAccess: UnderlayAccess) {
         wRegistry.add(GenericWriter(IIDs.NE_NE_PO_IN_INTERFACE, NoopListWriter()))
         wRegistry.subtreeAddAfter(JUNIPER_AUG_SUBTREE, GenericWriter(IIDs.NE_NE_PO_IN_IN_CONFIG,
             PolicyForwardingInterfaceConfigWriter(underlayAccess)),
                 /*handle after ifc configuration*/ io.frinx.openconfig.openconfig.interfaces.IIDs.IN_IN_CONFIG)
     }
 
-    private fun provideReaders(rRegistry: ModifiableReaderRegistryBuilder, underlayAccess: UnderlayAccess) {
+    private fun provideReaders(rRegistry: CustomizerAwareReadRegistryBuilder, underlayAccess: UnderlayAccess) {
         rRegistry.addStructuralReader(IIDs.NE_NE_POLICYFORWARDING, PolicyForwardingBuilder::class.java)
         rRegistry.addStructuralReader(IIDs.NE_NE_PO_INTERFACES, InterfacesBuilder::class.java)
         rRegistry.add(GenericConfigListReader(IIDs.NE_NE_PO_IN_INTERFACE,

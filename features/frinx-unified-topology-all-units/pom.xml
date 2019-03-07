@@ -51,7 +51,7 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>frinx-unified-topology-unit-xr-7</artifactId>
+            <artifactId>frinx-unified-topology-unit-xr-6-6</artifactId>
             <type>xml</type>
             <classifier>features</classifier>
         </dependency>

@@ -16,20 +16,20 @@
 package io.frinx.unitopo.unit.junos.ospf.handler
 
 import io.fd.honeycomb.translate.read.ReadContext
-import io.frinx.unitopo.handlers.ospf.OspfListReader
+import io.fd.honeycomb.translate.spi.read.ConfigListReaderCustomizer
 import io.frinx.unitopo.registry.spi.UnderlayAccess
+import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.ospf.types.rev170228.OspfAreaIdentifier
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.ospfv2.rev170228.ospfv2.top.ospfv2.AreasBuilder
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.ospfv2.rev170228.ospfv2.top.ospfv2.areas.Area
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.ospfv2.rev170228.ospfv2.top.ospfv2.areas.AreaBuilder
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.ospfv2.rev170228.ospfv2.top.ospfv2.areas.AreaKey
-import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.ospf.types.rev170228.OspfAreaIdentifier
 import org.opendaylight.yang.gen.v1.urn.ietf.params.xml.ns.yang.ietf.yang.types.rev130715.DottedQuad
 import org.opendaylight.yangtools.concepts.Builder
 import org.opendaylight.yangtools.yang.binding.DataObject
 import org.opendaylight.yangtools.yang.binding.InstanceIdentifier as IID
 
 class OspfAreaReader(private val underlayAccess: UnderlayAccess) :
-        OspfListReader.OspfConfigListReader<Area, AreaKey, AreaBuilder> {
+    ConfigListReaderCustomizer<Area, AreaKey, AreaBuilder> {
 
     override fun getBuilder(id: IID<Area>): AreaBuilder = AreaBuilder()
 
@@ -37,11 +37,11 @@ class OspfAreaReader(private val underlayAccess: UnderlayAccess) :
         (builder as AreasBuilder).`area` = areas
     }
 
-    override fun readCurrentAttributesForType(id: IID<Area>, area: AreaBuilder, readContext: ReadContext) {
+    override fun readCurrentAttributes(id: IID<Area>, area: AreaBuilder, readContext: ReadContext) {
         area.key = AreaKey(id.firstKeyOf(Area::class.java))
     }
 
-    override fun getAllIdsForType(id: IID<Area>, readContext: ReadContext): List<AreaKey> {
+    override fun getAllIds(id: IID<Area>, readContext: ReadContext): List<AreaKey> {
         val optOspf = underlayAccess.read(OspfProtocolReader.getOspfId()).checkedGet()
         if (!optOspf.isPresent) {
             return emptyList()

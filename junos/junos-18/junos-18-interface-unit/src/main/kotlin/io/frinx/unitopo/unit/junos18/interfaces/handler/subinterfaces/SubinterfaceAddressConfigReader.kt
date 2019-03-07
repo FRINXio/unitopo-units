@@ -27,13 +27,14 @@ import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.interfaces.ip
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.interfaces.ip.rev161222.ipv4.top.ipv4.addresses.address.ConfigBuilder
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.interfaces.rev161222.interfaces.top.interfaces.Interface
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.interfaces.rev161222.subinterfaces.top.subinterfaces.Subinterface
-import org.opendaylight.yang.gen.v1.http.yang.juniper.net.junos.conf.interfaces.rev180101.interfaces_type.unit.family.inet.Address as JunosInterfaceUnitAddress
 import org.opendaylight.yangtools.concepts.Builder
 import org.opendaylight.yangtools.yang.binding.DataObject
+import org.opendaylight.yang.gen.v1.http.yang.juniper.net.junos.conf.interfaces.rev180101.interfaces_type.unit.family.inet.Address as JunosInterfaceUnitAddress
 import org.opendaylight.yangtools.yang.binding.InstanceIdentifier as IID
 
 open class SubinterfaceAddressConfigReader(private val underlayAccess: UnderlayAccess) :
         ConfigReaderCustomizer<Config, ConfigBuilder> {
+
     override fun getBuilder(instanceIdentifier: IID<Config>): ConfigBuilder {
         return ConfigBuilder()
     }
@@ -47,7 +48,7 @@ open class SubinterfaceAddressConfigReader(private val underlayAccess: UnderlayA
             val unitId = instanceIdentifier.firstKeyOf(Subinterface::class.java).index
             val addressKey = AddressKey(instanceIdentifier.firstKeyOf(Address::class.java).ip)
 
-            InterfaceReader.readUnitAddress(underlayAccess, name, unitId, addressKey,
+        InterfaceReader.readUnitAddress(underlayAccess, name, unitId, addressKey,
                     { configBuilder.fromUnderlay(it) })
     }
 

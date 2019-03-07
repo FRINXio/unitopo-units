@@ -15,7 +15,6 @@
  */
 
 package org.opendaylight.yang.gen.v1.http.yang.juniper.net.yang._1._1.jc.configuration.junos._17._3r1._10.rev170101.dcd_shaping_config.useless_shaping_choice.case_3;
-import org.opendaylight.yang.gen.v1.http.yang.juniper.net.yang._1._1.jc.configuration.junos._17._3r1._10.rev170101.dcd_shaping_config.useless_shaping_choice.case_3.Rtvbr.Cdvt;
 
 /**
  * The purpose of generated class in src/main/java for Union types is to create new instances of unions from a string representation.

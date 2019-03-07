@@ -25,10 +25,10 @@ import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.probes.rev170
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.probes.rev170905.probes.top.ProbeBuilder
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.probes.rev170905.probes.top.ProbeKey
 import org.opendaylight.yang.gen.v1.http.yang.juniper.net.junos.conf.root.rev180101.Configuration
+import org.opendaylight.yang.gen.v1.http.yang.juniper.net.junos.conf.services.rev180101.services.group.Services
 import org.opendaylight.yangtools.concepts.Builder
 import org.opendaylight.yangtools.yang.binding.DataObject
 import org.opendaylight.yang.gen.v1.http.yang.juniper.net.junos.conf.services.rev180101.Configuration1 as ServicesConfigurationAug
-import org.opendaylight.yang.gen.v1.http.yang.juniper.net.junos.conf.services.rev180101.services.group.Services
 import org.opendaylight.yangtools.yang.binding.InstanceIdentifier as IID
 
 class ProbeReader(private val underlayAccess: UnderlayAccess) :

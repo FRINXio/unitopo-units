@@ -72,9 +72,7 @@ class InterfaceConfigWriterTest {
         private val NATIVE_IID = InterfaceReader.JUNOS_IFCS
             .child(JunosInterface::class.java, JunosInterfaceKey(IF_NAME))
 
-        private val DATA_JUNOS_IFC = NC_HELPER.read(NATIVE_IID).checkedGet().get()
-
-        private val NATIVE_CONFIG = JunosInterfaceBuilder(DATA_JUNOS_IFC)
+        private val NATIVE_CONFIG = JunosInterfaceBuilder()
             .setName(IF_NAME)
             .setEnableDisable(Case1Builder().setDisable(!IF_ENABLED).build())
             .build()
@@ -100,13 +98,13 @@ class InterfaceConfigWriterTest {
         val dataCap = ArgumentCaptor
             .forClass(DataObject::class.java) as ArgumentCaptor<JunosInterface>
 
-        Mockito.doNothing().`when`(underlayAccess).put(Mockito.any(), Mockito.any())
+        Mockito.doNothing().`when`(underlayAccess).safePut(Mockito.any(), Mockito.any())
 
         // test
         target.writeCurrentAttributes(id, config, writeContext)
 
         // capture
-        Mockito.verify(underlayAccess, Mockito.times(1)).put(idCap.capture(), dataCap.capture())
+        Mockito.verify(underlayAccess, Mockito.times(1)).safePut(idCap.capture(), dataCap.capture())
 
         // verify capture-length
         Assert.assertThat(idCap.allValues.size, CoreMatchers.`is`(1))
@@ -165,13 +163,15 @@ class InterfaceConfigWriterTest {
         val dataCap = ArgumentCaptor
             .forClass(DataObject::class.java) as ArgumentCaptor<JunosInterface>
 
-        Mockito.doNothing().`when`(underlayAccess).put(Mockito.any(), Mockito.any())
+        Mockito.doNothing().`when`(underlayAccess).safeMerge(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any())
 
         // test
         target.updateCurrentAttributes(IID_CONFIG, configBefore, configAfter, writeContext)
 
         // capture
-        Mockito.verify(underlayAccess, Mockito.times(1)).put(idCap.capture(), dataCap.capture())
+        Mockito.verify(underlayAccess,
+            Mockito.times(1)).safeMerge(
+            Mockito.any(), Mockito.any(), idCap.capture(), dataCap.capture())
 
         // verify capture-length
         Assert.assertThat(idCap.allValues.size, CoreMatchers.`is`(1))
@@ -191,29 +191,29 @@ class InterfaceConfigWriterTest {
     @Test
     fun testIsIfaceNameAndTypeValid() {
         // valid
-        Assert.assertThat(InterfaceConfigWriter.isIfaceNameAndTypeValid("em0/0/0", EthernetCsmacd::class.java),
+        Assert.assertThat(target.isIfaceNameAndTypeValid("em0/0/0", EthernetCsmacd::class.java),
             CoreMatchers.`is`(true))
-        Assert.assertThat(InterfaceConfigWriter.isIfaceNameAndTypeValid("et0/0/0", EthernetCsmacd::class.java),
+        Assert.assertThat(target.isIfaceNameAndTypeValid("et0/0/0", EthernetCsmacd::class.java),
             CoreMatchers.`is`(true))
-        Assert.assertThat(InterfaceConfigWriter.isIfaceNameAndTypeValid("fe0/0/0", EthernetCsmacd::class.java),
+        Assert.assertThat(target.isIfaceNameAndTypeValid("fe0/0/0", EthernetCsmacd::class.java),
             CoreMatchers.`is`(true))
-        Assert.assertThat(InterfaceConfigWriter.isIfaceNameAndTypeValid("fxp0/0/0", EthernetCsmacd::class.java),
+        Assert.assertThat(target.isIfaceNameAndTypeValid("fxp0/0/0", EthernetCsmacd::class.java),
             CoreMatchers.`is`(true))
-        Assert.assertThat(InterfaceConfigWriter.isIfaceNameAndTypeValid("ge0/0/0", EthernetCsmacd::class.java),
+        Assert.assertThat(target.isIfaceNameAndTypeValid("ge0/0/0", EthernetCsmacd::class.java),
             CoreMatchers.`is`(true))
-        Assert.assertThat(InterfaceConfigWriter.isIfaceNameAndTypeValid("xe0/0/0", EthernetCsmacd::class.java),
+        Assert.assertThat(target.isIfaceNameAndTypeValid("xe0/0/0", EthernetCsmacd::class.java),
             CoreMatchers.`is`(true))
-        Assert.assertThat(InterfaceConfigWriter.isIfaceNameAndTypeValid("lo0", SoftwareLoopback::class.java),
+        Assert.assertThat(target.isIfaceNameAndTypeValid("lo0", SoftwareLoopback::class.java),
             CoreMatchers.`is`(true))
-        Assert.assertThat(InterfaceConfigWriter.isIfaceNameAndTypeValid("ae100", Ieee8023adLag::class.java),
+        Assert.assertThat(target.isIfaceNameAndTypeValid("ae100", Ieee8023adLag::class.java),
             CoreMatchers.`is`(true))
-        Assert.assertThat(InterfaceConfigWriter.isIfaceNameAndTypeValid("ms0/0/0", Other::class.java),
+        Assert.assertThat(target.isIfaceNameAndTypeValid("ms0/0/0", Other::class.java),
             CoreMatchers.`is`(true))
 
         // invalid
-        Assert.assertThat(InterfaceConfigWriter.isIfaceNameAndTypeValid("em0/0/0", SoftwareLoopback::class.java),
+        Assert.assertThat(target.isIfaceNameAndTypeValid("em0/0/0", SoftwareLoopback::class.java),
             CoreMatchers.`is`(false))
-        Assert.assertThat(InterfaceConfigWriter.isIfaceNameAndTypeValid("ms0/0/0", EthernetCsmacd::class.java),
+        Assert.assertThat(target.isIfaceNameAndTypeValid("ms0/0/0", EthernetCsmacd::class.java),
             CoreMatchers.`is`(false))
     }
 }

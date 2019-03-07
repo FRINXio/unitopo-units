@@ -21,8 +21,8 @@ import io.fd.honeycomb.translate.impl.read.GenericConfigListReader
 import io.fd.honeycomb.translate.impl.read.GenericConfigReader
 import io.fd.honeycomb.translate.impl.write.GenericListWriter
 import io.fd.honeycomb.translate.impl.write.GenericWriter
-import io.fd.honeycomb.translate.read.registry.ModifiableReaderRegistryBuilder
-import io.fd.honeycomb.translate.write.registry.ModifiableWriterRegistryBuilder
+import io.fd.honeycomb.translate.spi.builder.CustomizerAwareReadRegistryBuilder
+import io.fd.honeycomb.translate.spi.builder.CustomizerAwareWriteRegistryBuilder
 import io.frinx.openconfig.openconfig.bfd.IIDs
 import io.frinx.unitopo.registry.api.TranslationUnitCollector
 import io.frinx.unitopo.registry.spi.TranslateUnit
@@ -32,14 +32,14 @@ import io.frinx.unitopo.unit.junos.bfd.handler.ConfigWriter
 import io.frinx.unitopo.unit.junos.bfd.handler.InterfaceReader
 import io.frinx.unitopo.unit.utils.NoopListWriter
 import io.frinx.unitopo.unit.utils.NoopWriter
-import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.bfd.rev171117.bfd.top.bfd.interfaces._interface.Config
-import org.opendaylight.yangtools.yang.binding.InstanceIdentifier
-import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.bfd.rev171117.`$YangModuleInfoImpl` as BfdBaseYangInfo
-import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.bfd.ext.rev180211.`$YangModuleInfoImpl` as BfdExtYangInfo
-import org.opendaylight.yang.gen.v1.http.yang.juniper.net.yang._1._1.jc.configuration.junos._17._3r1._10.rev170101.`$YangModuleInfoImpl` as UnderlayInterfacesYangInfo
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.bfd.ext.rev180211.IfBfdExtAug
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.bfd.rev171117.bfd.top.BfdBuilder
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.bfd.rev171117.bfd.top.bfd.InterfacesBuilder
+import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.bfd.rev171117.bfd.top.bfd.interfaces._interface.Config
+import org.opendaylight.yangtools.yang.binding.InstanceIdentifier
+import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.bfd.ext.rev180211.`$YangModuleInfoImpl` as BfdExtYangInfo
+import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.bfd.rev171117.`$YangModuleInfoImpl` as BfdBaseYangInfo
+import org.opendaylight.yang.gen.v1.http.yang.juniper.net.yang._1._1.jc.configuration.junos._17._3r1._10.rev170101.`$YangModuleInfoImpl` as UnderlayInterfacesYangInfo
 
 class Unit(private val registry: TranslationUnitCollector) : TranslateUnit {
     private var reg: TranslationUnitCollector.Registration? = null
@@ -66,15 +66,15 @@ class Unit(private val registry: TranslationUnitCollector) : TranslateUnit {
     override fun getRpcs(underlayAccess: UnderlayAccess) = emptySet<RpcService<*, *>>()
 
     override fun provideHandlers(
-        rRegistry: ModifiableReaderRegistryBuilder,
-        wRegistry: ModifiableWriterRegistryBuilder,
+        rRegistry: CustomizerAwareReadRegistryBuilder,
+        wRegistry: CustomizerAwareWriteRegistryBuilder,
         underlayAccess: UnderlayAccess
     ) {
         provideReaders(rRegistry, underlayAccess)
         provideWriters(wRegistry, underlayAccess)
     }
 
-    private fun provideWriters(wRegistry: ModifiableWriterRegistryBuilder, underlayAccess: UnderlayAccess) {
+    private fun provideWriters(wRegistry: CustomizerAwareWriteRegistryBuilder, underlayAccess: UnderlayAccess) {
         wRegistry.add(GenericWriter(IIDs.BFD, NoopWriter()))
         wRegistry.add(GenericWriter(IIDs.BF_INTERFACES, NoopWriter()))
         wRegistry.add(GenericListWriter(IIDs.BF_IN_INTERFACE, NoopListWriter()))
@@ -82,7 +82,7 @@ class Unit(private val registry: TranslationUnitCollector) : TranslateUnit {
             GenericWriter(IIDs.BF_IN_IN_CONFIG, ConfigWriter(underlayAccess)))
     }
 
-    private fun provideReaders(rRegistry: ModifiableReaderRegistryBuilder, underlayAccess: UnderlayAccess) {
+    private fun provideReaders(rRegistry: CustomizerAwareReadRegistryBuilder, underlayAccess: UnderlayAccess) {
         rRegistry.addStructuralReader(IIDs.BFD, BfdBuilder::class.java)
         rRegistry.addStructuralReader(IIDs.BF_INTERFACES, InterfacesBuilder::class.java)
         rRegistry.add(GenericConfigListReader(IIDs.BF_IN_INTERFACE, InterfaceReader(underlayAccess)))

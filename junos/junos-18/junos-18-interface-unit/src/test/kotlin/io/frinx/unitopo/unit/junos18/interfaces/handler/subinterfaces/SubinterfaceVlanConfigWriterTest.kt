@@ -43,9 +43,6 @@ import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.vlan.rev17071
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.vlan.types.rev170714.QinqId
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.vlan.types.rev170714.VlanId
 import org.opendaylight.yang.gen.v1.http.yang.juniper.net.junos.conf.interfaces.rev180101.interfaces_type.unit.vlan_choice.case_6.VlanTagsBuilder
-import org.opendaylight.yang.gen.v1.http.yang.juniper.net.junos.conf.interfaces.rev180101.interfaces_type.unit.vlan_choice.Case1Builder as JunosVlanChoiceCase1Builder
-import org.opendaylight.yang.gen.v1.http.yang.juniper.net.junos.conf.interfaces.rev180101.interfaces_type.unit.vlan_choice.Case6Builder as JunosVlanChoiceCase6Builder
-import org.opendaylight.yang.gen.v1.http.yang.juniper.net.junos.conf.interfaces.rev180101.interfaces_type.unit.vlan_choice.case_6.vlan.tags.inner_choice.Case1Builder as InnterChoiceCase1Builder
 import org.opendaylight.yangtools.yang.binding.DataObject
 import org.opendaylight.yangtools.yang.binding.InstanceIdentifier
 import org.opendaylight.yang.gen.v1.http.yang.juniper.net.junos.conf.interfaces.rev180101.interfaces.group.interfaces.Interface as JunosInterface
@@ -53,6 +50,9 @@ import org.opendaylight.yang.gen.v1.http.yang.juniper.net.junos.conf.interfaces.
 import org.opendaylight.yang.gen.v1.http.yang.juniper.net.junos.conf.interfaces.rev180101.interfaces_type.Unit as JunosInterfaceUnit
 import org.opendaylight.yang.gen.v1.http.yang.juniper.net.junos.conf.interfaces.rev180101.interfaces_type.UnitBuilder as JunosInterfaceUnitBuilder
 import org.opendaylight.yang.gen.v1.http.yang.juniper.net.junos.conf.interfaces.rev180101.interfaces_type.UnitKey as JunosInterfaceUnitKey
+import org.opendaylight.yang.gen.v1.http.yang.juniper.net.junos.conf.interfaces.rev180101.interfaces_type.unit.vlan_choice.Case1Builder as JunosVlanChoiceCase1Builder
+import org.opendaylight.yang.gen.v1.http.yang.juniper.net.junos.conf.interfaces.rev180101.interfaces_type.unit.vlan_choice.Case6Builder as JunosVlanChoiceCase6Builder
+import org.opendaylight.yang.gen.v1.http.yang.juniper.net.junos.conf.interfaces.rev180101.interfaces_type.unit.vlan_choice.case_6.vlan.tags.inner_choice.Case1Builder as InnterChoiceCase1Builder
 
 class SubinterfaceVlanConfigWriterTest {
     @Mock
@@ -158,7 +158,7 @@ class SubinterfaceVlanConfigWriterTest {
         val id = IID_CONFIG
         val config = ConfigBuilder(CONFIG_VLANID)
             .build()
-        val expectedConfig = JunosInterfaceUnitBuilder(NATIVE_CONFIG)
+        val expectedConfig = JunosInterfaceUnitBuilder()
             .setVlanChoice(VLAN_CHOICE_NULL)
             .build()
 

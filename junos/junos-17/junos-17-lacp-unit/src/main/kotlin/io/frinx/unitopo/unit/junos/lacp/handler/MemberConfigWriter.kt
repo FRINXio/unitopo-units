@@ -20,11 +20,10 @@ import com.google.common.base.Preconditions
 import io.fd.honeycomb.translate.spi.write.WriterCustomizer
 import io.fd.honeycomb.translate.write.WriteContext
 import io.frinx.unitopo.registry.spi.UnderlayAccess
-import io.frinx.unitopo.unit.junos.interfaces.handler.InterfaceConfigReader
 import io.frinx.unitopo.unit.junos.interfaces.handler.InterfaceReader
+import io.frinx.unitopo.unit.junos.interfaces.handler.Util
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.lacp.rev170505.aggregation.lacp.members.top.members.Member
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.lacp.rev170505.aggregation.lacp.members.top.members.member.Config
-import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.lacp.rev170505.lacp.interfaces.top.interfaces.Interface as LacpInterface
 import org.opendaylight.yang.gen.v1.http.yang.juniper.net.yang._1._1.jc.configuration.junos._17._3r1._10.rev170101.interfaces_type.GigetherOptions
 import org.opendaylight.yang.gen.v1.http.yang.juniper.net.yang._1._1.jc.configuration.junos._17._3r1._10.rev170101.interfaces_type.gigether.options.Ieee8023ad
 import org.opendaylight.yang.gen.v1.http.yang.juniper.net.yang._1._1.jc.configuration.junos._17._3r1._10.rev170101.interfaces_type.gigether.options.Ieee8023adBuilder
@@ -32,6 +31,7 @@ import org.opendaylight.yang.gen.v1.http.yang.juniper.net.yang._1._1.jc.configur
 import org.opendaylight.yang.gen.v1.http.yang.juniper.net.yang._1._1.jc.configuration.junos._17._3r1._10.rev170101.juniper.config.interfaces.InterfaceKey
 import org.opendaylight.yang.gen.v1.urn.ietf.params.xml.ns.yang.iana._if.type.rev140508.EthernetCsmacd
 import org.opendaylight.yangtools.yang.binding.InstanceIdentifier
+import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.lacp.rev170505.lacp.interfaces.top.interfaces.Interface as LacpInterface
 
 class MemberConfigWriter(private val underlayAccess: UnderlayAccess) : WriterCustomizer<Config> {
 
@@ -68,7 +68,7 @@ class MemberConfigWriter(private val underlayAccess: UnderlayAccess) : WriterCus
 
         private fun isSupportedMemberInterface(id: InstanceIdentifier<Config>) {
             val ifcName = id.firstKeyOf(Member::class.java).`interface`
-            val ifcType = InterfaceConfigReader.parseIfcType(ifcName)
+            val ifcType = Util.parseIfcType(ifcName)
             Preconditions.checkArgument(ifcType === EthernetCsmacd::class.java,
                 """Ethernet interface aggregation configuration is supported only on ethernet interfaces.
                 Cannot configure interface $ifcName of type $ifcType""")

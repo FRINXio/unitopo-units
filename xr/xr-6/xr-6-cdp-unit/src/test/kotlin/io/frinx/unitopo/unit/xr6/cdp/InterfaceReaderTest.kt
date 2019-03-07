@@ -27,11 +27,10 @@ class InterfaceReaderTest : AbstractNetconfHandlerTest() {
 
     @Test
     fun testAllIds() {
-        val expected = listOf("GigabitEthernet0/0/0/3", "MgmtEth0/0/CPU0/0", "GigabitEthernet0/0/0/2")
-                .map { InterfaceKey(it) }
-        val real = InterfaceReader.parseInterfaceIds(
-                InterfaceReader.parseInterfaces(parseGetCfgResponse(DATA_NODES, InterfaceReader.CDP_OPER)))
-        Assert.assertEquals(expected.size, real.size)
-        Assert.assertTrue(expected.containsAll(real))
+        Assert.assertEquals(
+                listOf("MgmtEth0/0/CPU0/0", "GigabitEthernet0/0/0/2", "GigabitEthernet0/0/0/3")
+                        .map { InterfaceKey(it) },
+                InterfaceReader.parseInterfaceIds(
+                        InterfaceReader.parseInterfaces(parseGetCfgResponse(DATA_NODES, InterfaceReader.CDP_OPER))))
     }
 }

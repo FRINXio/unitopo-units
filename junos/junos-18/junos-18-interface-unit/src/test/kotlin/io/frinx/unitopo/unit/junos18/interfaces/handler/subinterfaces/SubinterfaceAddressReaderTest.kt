@@ -17,9 +17,11 @@
 package io.frinx.unitopo.unit.junos18.interfaces.handler.subinterfaces
 
 import io.fd.honeycomb.translate.read.ReadContext
+import io.frinx.openconfig.openconfig.interfaces.IIDs
 import io.frinx.unitopo.registry.spi.UnderlayAccess
 import io.frinx.unitopo.unit.utils.AbstractNetconfHandlerTest
 import io.frinx.unitopo.unit.utils.NetconfAccessHelper
+import org.hamcrest.CoreMatchers
 import org.hamcrest.Matchers
 import org.junit.Assert
 import org.junit.Before
@@ -27,8 +29,6 @@ import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
-import io.frinx.openconfig.openconfig.interfaces.IIDs
-import org.hamcrest.CoreMatchers
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.interfaces.ip.rev161222.Subinterface1
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.interfaces.ip.rev161222.ipv4.top.Ipv4
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.interfaces.ip.rev161222.ipv4.top.ipv4.Addresses
@@ -67,7 +67,7 @@ class SubinterfaceAddressReaderTest : AbstractNetconfHandlerTest() {
     fun setUp() {
         MockitoAnnotations.initMocks(this)
         underlayAccess = Mockito.spy(NetconfAccessHelper(NC_HELPER))
-        target = Mockito.spy(SubinterfaceAddressReader(underlayAccess))
+        target = SubinterfaceAddressReader(underlayAccess)
     }
     @Test
     fun testGetAllIds() {
