@@ -25,9 +25,9 @@ import io.frinx.openconfig.openconfig.bgp.IIDs as BgpIIDs
 import io.frinx.openconfig.openconfig.network.instance.IIDs as NeIIDs
 import io.frinx.openconfig.openconfig.policy.IIDs
 import io.frinx.unitopo.registry.api.TranslationUnitCollector
-import io.frinx.unitopo.registry.spi.TranslateUnit
 import io.frinx.unitopo.registry.spi.UnderlayAccess
 import io.frinx.unitopo.unit.utils.NoopWriter
+import io.frinx.unitopo.unit.xr6.init.Unit
 import io.frinx.unitopo.unit.xr6.routing.policy.handlers.ExtCommunitySetConfigWriter
 import io.frinx.unitopo.unit.xr6.routing.policy.handlers.ExtCommunitySetReader
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.bgp.policy.rev170730.DefinedSets2
@@ -47,7 +47,7 @@ import org.opendaylight.yangtools.yang.binding.DataObject
 import org.opendaylight.yangtools.yang.binding.YangModuleInfo
 import org.opendaylight.yang.gen.v1.http.cisco.com.ns.yang.cisco.ios.xr.ipv4.bgp.cfg.rev150827.`$YangModuleInfoImpl` as UnderlayIpv4BgpConfigYangModule
 
-class Unit(private val registry: TranslationUnitCollector) : TranslateUnit {
+class Unit(private val registry: TranslationUnitCollector) : Unit() {
     private var reg: TranslationUnitCollector.Registration? = null
 
     fun init() {
