@@ -27,7 +27,7 @@
     <groupId>io.frinx.unitopo</groupId>
     <artifactId>frinx-unified-topology-all-units</artifactId>
     <packaging>feature</packaging>
-    <version>4.2.1.rc13-frinx-SNAPSHOT</version>
+    <version>4.2.1.rc13-frinx</version>
     <name>Frinx :: Unified Topology :: Unit :: All</name>
 
     <dependencyManagement>
