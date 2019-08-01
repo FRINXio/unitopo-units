@@ -110,6 +110,10 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>xr-6.6-ospf-unit</artifactId>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xr-6.6-isis-unit</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
