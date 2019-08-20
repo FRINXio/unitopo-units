@@ -30,6 +30,11 @@
     <version>4.2.3.rc7-frinx-SNAPSHOT</version>
     <name>Frinx :: Unified Topology :: Unit :: XR :: 6-6</name>
 
+    <properties>
+        <translate.unit.commons.version>4.2.3.rc7-frinx-SNAPSHOT</translate.unit.commons.version>
+    </properties>
+
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -68,6 +73,11 @@
                 </exclusion>
             </exclusions>
             <version>1.18.04-Oxygen-SR2.4_2_3_rc7-frinxodl-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>io.frinx.translate.unit.commons</groupId>
+            <artifactId>ios-xr-route-policy-util</artifactId>
+            <version>${translate.unit.commons.version}</version>
         </dependency>
 
         <dependency>
