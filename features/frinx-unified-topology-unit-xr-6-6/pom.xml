@@ -114,6 +114,10 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>xr-6.6-isis-unit</artifactId>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xr-6.6-routing-policy-unit</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
