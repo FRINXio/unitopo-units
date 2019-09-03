@@ -30,6 +30,10 @@
     <version>4.2.3.rc7-frinx-SNAPSHOT</version>
     <name>Frinx :: Unified Topology :: Unit :: Base</name>
 
+    <properties>
+        <chunk.version>3.3.1</chunk.version>
+    </properties>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -72,6 +76,11 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>utils-unit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.x5dev</groupId>
+            <artifactId>chunk-templates</artifactId>
+            <version>${chunk.version}</version>
         </dependency>
     </dependencies>
 </project>
