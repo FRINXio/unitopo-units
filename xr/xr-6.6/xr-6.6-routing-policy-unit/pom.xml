@@ -19,7 +19,7 @@
     <parent>
         <groupId>io.frinx.unitopo</groupId>
         <artifactId>kotlin-unit-parent</artifactId>
-        <version>4.2.4.rc1-frinx</version>
+        <version>4.2.4.rc2-frinx-SNAPSHOT</version>
         <relativePath>../../../kotlin-unit-parent</relativePath>
     </parent>
 
