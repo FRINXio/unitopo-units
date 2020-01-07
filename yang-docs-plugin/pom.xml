@@ -5,14 +5,14 @@
     <parent>
         <groupId>io.frinx.translate.unit.commons</groupId>
         <artifactId>checkstyle-parent</artifactId>
-        <version>4.2.4.rc5-frinx-SNAPSHOT</version>
+        <version>4.2.4.rc5-frinx</version>
         <relativePath/>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.frinx.unitopo</groupId>
     <artifactId>yang-docs-plugin</artifactId>
-    <version>4.2.4.rc5-frinx-SNAPSHOT</version>
+    <version>4.2.4.rc5-frinx</version>
 
 
     <dependencyManagement>
