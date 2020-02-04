@@ -29,6 +29,7 @@
     <module>frinx-unified-topology-unit-junos-17-3</module>
     <module>frinx-unified-topology-unit-xr-6</module>
     <module>frinx-unified-topology-unit-xr-6-6</module>
+    <module>frinx-unified-topology-unit-xr-7</module>
     <module>frinx-unified-topology-unit-base</module>
   </modules>
 </project>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright © 2018 Frinx and others.
+  ~ Copyright © 2020 Frinx and others.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -25,10 +25,15 @@
     </parent>
 
     <groupId>io.frinx.unitopo</groupId>
-    <artifactId>frinx-unified-topology-all-units</artifactId>
+    <artifactId>frinx-unified-topology-unit-xr-7</artifactId>
     <packaging>feature</packaging>
     <version>4.2.4.rc15-frinx-SNAPSHOT</version>
-    <name>Frinx :: Unified Topology :: Unit :: All</name>
+    <name>Frinx :: Unified Topology :: Unit :: XR :: 7</name>
+
+    <properties>
+        <translate.unit.commons.version>4.2.4.rc15-frinx-SNAPSHOT</translate.unit.commons.version>
+    </properties>
+
 
     <dependencyManagement>
         <dependencies>
@@ -39,38 +44,38 @@
                 <version>${project.version}</version>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>org.opendaylight.netconf</groupId>
+                <artifactId>netconf-artifacts</artifactId>
+                <type>pom</type>
+                <version>1.4.2-Oxygen-SR2.4_2_4_rc15-frinxodl-SNAPSHOT</version>
+                <scope>import</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <dependencies>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>frinx-unified-topology-unit-xr-6</artifactId>
-            <type>xml</type>
-            <classifier>features</classifier>
+            <groupId>io.frinx.translate.unit.commons</groupId>
+            <artifactId>ios-xr-route-policy-util</artifactId>
+            <version>${translate.unit.commons.version}</version>
         </dependency>
+
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>frinx-unified-topology-unit-xr-6-6</artifactId>
-            <type>xml</type>
-            <classifier>features</classifier>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>frinx-unified-topology-unit-xr-7</artifactId>
+            <artifactId>xr-7-init-unit</artifactId>
             <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>frinx-unified-topology-unit-base</artifactId>
             <type>xml</type>
             <classifier>features</classifier>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>frinx-unified-topology-unit-junos-17-3</artifactId>
-            <type>xml</type>
-            <classifier>features</classifier>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>frinx-unified-topology-unit-junos-18-2</artifactId>
+            <groupId>org.opendaylight.netconf</groupId>
+            <artifactId>odl-netconf-topology</artifactId>
             <type>xml</type>
             <classifier>features</classifier>
         </dependency>

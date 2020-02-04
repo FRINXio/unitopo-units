@@ -51,5 +51,12 @@
             <type>xml</type>
             <classifier>features</classifier>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>frinx-unified-topology-unit-xr-7</artifactId>
+            <version>${project.version}</version>
+            <type>xml</type>
+            <classifier>features</classifier>
+        </dependency>
     </dependencies>
 </project>
