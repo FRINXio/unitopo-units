@@ -34,7 +34,7 @@
     <packaging>bundle</packaging>
     <build>
         <plugins>
-          <plugin>
+            <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
                 <extensions>true</extensions>
@@ -43,7 +43,7 @@
                         <_invalidfilenames></_invalidfilenames>
                         <Export-Package>
                             <!-- Export generated APIs with device label -->
-                            org.opendaylight.yang.gen.v1.http.cisco.com.ns.yang.cisco.*;device=xr7
+                            org.opendaylight.yang.gen.v1.http.cisco.com.ns.yang.cisco.*;device=xr66
                         </Export-Package>
                         <Import-Package>
                             <!--
@@ -57,7 +57,7 @@
                 </configuration>
             </plugin>
         </plugins>
-   </build>
+    </build>
     <dependencies>
         <dependency>
             <groupId>org.opendaylight.mdsal.model</groupId>
