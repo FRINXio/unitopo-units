@@ -290,6 +290,11 @@
                 <artifactId>xr-7-ospf-unit</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.frinx.unitopo</groupId>
+                <artifactId>xr-7-isis-unit</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <!-- Features -->
             <dependency>
