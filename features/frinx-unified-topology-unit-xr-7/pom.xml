@@ -56,6 +56,25 @@
 
     <dependencies>
         <dependency>
+            <groupId>io.fd.honeycomb</groupId>
+            <artifactId>translate-utils</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jgrapht</groupId>
+                    <artifactId>jgrapht-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jgrapht</groupId>
+                    <artifactId>jgrapht-ext</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.tinyjee.jgraphx</groupId>
+                    <artifactId>jgraphx</artifactId>
+                </exclusion>
+            </exclusions>
+            <version>1.18.04-Oxygen-SR2.4_2_4_rc18-frinxodl-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>io.frinx.translate.unit.commons</groupId>
             <artifactId>ios-xr-route-policy-util</artifactId>
             <version>${translate.unit.commons.version}</version>
@@ -64,57 +83,46 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>xr-7-init-unit</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>xr-7-configuration-metadata-unit</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>xr-7-models</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>xr-7-interface-unit</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>xr-7-bgp-unit</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>xr-7-ospf-unit</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>xr-7-isis-unit</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>xr-7-network-instance-unit</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>xr-7-routing-policy-unit</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>xr-7-evpn-unit</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>xr-7-logging-unit</artifactId>
-            <version>${project.version}</version>
         </dependency>
 
         <dependency>
