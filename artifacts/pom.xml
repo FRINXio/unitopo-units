@@ -297,7 +297,7 @@
             </dependency>
             <dependency>
                 <groupId>io.frinx.unitopo</groupId>
-                <artifactId>xr-7-network-instatnce-unit</artifactId>
+                <artifactId>xr-7-network-instance-unit</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -355,6 +355,13 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>frinx-unified-topology-unit-xr-6-6</artifactId>
+                <type>xml</type>
+                <classifier>features</classifier>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>frinx-unified-topology-unit-xr-7</artifactId>
                 <type>xml</type>
                 <classifier>features</classifier>
                 <version>${project.version}</version>

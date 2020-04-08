@@ -43,7 +43,7 @@
                         <_invalidfilenames></_invalidfilenames>
                         <Export-Package>
                             <!-- Export generated APIs with device label -->
-                            org.opendaylight.yang.gen.v1.http.cisco.com.ns.yang.cisco.*;device=xr66
+                            org.opendaylight.yang.gen.v1.http.cisco.com.ns.yang.cisco.*;device=xr7
                         </Export-Package>
                         <Import-Package>
                             <!--
