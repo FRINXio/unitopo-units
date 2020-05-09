@@ -26,7 +26,7 @@
 
   <groupId>io.frinx.unitopo</groupId>
   <artifactId>unitopo-units-junos-18</artifactId>
-  <version>4.2.4.rc23-frinx</version>
+  <version>4.2.4.rc24-frinx-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <modules>
