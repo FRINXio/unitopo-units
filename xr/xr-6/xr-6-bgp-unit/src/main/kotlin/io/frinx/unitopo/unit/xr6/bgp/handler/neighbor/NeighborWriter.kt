@@ -382,8 +382,8 @@ private fun setSoftReconfiguration(afiSafi: AfiSafi?, neighborAfBuilder: Neighbo
                     .setSoftAlways(true).build())
         } else {
             neighborAfBuilder.setSoftReconfiguration(SoftReconfigurationBuilder()
-                    .setSoftAlways(true)
-                    .setInboundSoft(false).build())
+                    .setSoftAlways(false)
+                    .setInboundSoft(true).build())
         }
     }
 }
@@ -395,6 +395,13 @@ private fun setPolicy(data: Neighbor, neighborAfBuilder: NeighborAfBuilder) {
         neighborAfBuilder.setNextHopSelf(true)
     } else {
         applyPolicyConfig?.exportPolicy.orEmpty().firstOrNull()?.let { neighborAfBuilder.setRoutePolicyOut(it) }
+    }
+    val afiSafiApplyPolicyConfig = data.afiSafis?.afiSafi.orEmpty().firstOrNull()?.applyPolicy?.config
+    afiSafiApplyPolicyConfig?.importPolicy.orEmpty().firstOrNull()?.let { neighborAfBuilder.setRoutePolicyIn(it) }
+    if (afiSafiApplyPolicyConfig?.exportPolicy.orEmpty().firstOrNull().equals(NEXTHOPSELF_POLICY_NAME)) {
+        neighborAfBuilder.setNextHopSelf(true)
+    } else {
+        afiSafiApplyPolicyConfig?.exportPolicy.orEmpty().firstOrNull()?.let { neighborAfBuilder.setRoutePolicyOut(it) }
     }
 }
 
@@ -433,7 +440,6 @@ private fun parseVrfNeighborAfBuilder(
     it: VrfNeighborAf?
 ): VrfNeighborAfBuilder {
     val vrfNeighborAfBuilder = VrfNeighborAfBuilder(it)
-
     setVrfUnicast(it, afiSafi, vrfNeighborAfBuilder)
     setVrfPolicy(data, vrfNeighborAfBuilder)
     setVrfSoftReconfiguration(afiSafi, vrfNeighborAfBuilder)
@@ -465,8 +471,8 @@ fun setVrfSoftReconfiguration(afiSafi: AfiSafi?, vrfNeighborAfBuilder: VrfNeighb
                     .setSoftAlways(true).build())
         } else {
             vrfNeighborAfBuilder.setSoftReconfiguration(SoftReconfigurationBuilder()
-                    .setSoftAlways(true)
-                    .setInboundSoft(false).build())
+                    .setSoftAlways(false)
+                    .setInboundSoft(true).build())
         }
     }
 }
@@ -478,6 +484,14 @@ fun setVrfPolicy(data: Neighbor, vrfNeighborAfBuilder: VrfNeighborAfBuilder) {
         vrfNeighborAfBuilder.setNextHopSelf(true)
     } else {
         applyPolicyConfig?.exportPolicy.orEmpty().firstOrNull()?.let { vrfNeighborAfBuilder.setRoutePolicyOut(it) }
+    }
+    val afiSafiApplyPolicyConfig = data.afiSafis?.afiSafi.orEmpty().firstOrNull()?.applyPolicy?.config
+    afiSafiApplyPolicyConfig?.importPolicy.orEmpty().firstOrNull()?.let { vrfNeighborAfBuilder.setRoutePolicyIn(it) }
+    if (afiSafiApplyPolicyConfig?.exportPolicy.orEmpty().firstOrNull().equals(NEXTHOPSELF_POLICY_NAME)) {
+        vrfNeighborAfBuilder.setNextHopSelf(true)
+    } else {
+        afiSafiApplyPolicyConfig?.exportPolicy.orEmpty().firstOrNull()
+                ?.let { vrfNeighborAfBuilder.setRoutePolicyOut(it) }
     }
 }
 
