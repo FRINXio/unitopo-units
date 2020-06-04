@@ -107,7 +107,7 @@ private fun ConfigBuilder.fromUnderlay(neighbor: UnderlayNeighbor?) {
     neighbor?.let {
         neighborAddress = neighbor.neighborAddress.toIp()
         neighbor.neighborGroupAddMember?.let { peerGroup = neighbor.neighborGroupAddMember }
-        val firstNeighborAf = neighbor.neighborAfs.neighborAf.orEmpty().firstOrNull()
+        val firstNeighborAf = neighbor.neighborAfs?.neighborAf.orEmpty().firstOrNull()
         val sendCommunityEbgp = firstNeighborAf?.isSendCommunityEbgp
         val removePrivateAs = firstNeighborAf?.removePrivateAsEntireAsPath
         sendCommunityEbgp?.let { setSendCommunity(CommunityType.BOTH) }
