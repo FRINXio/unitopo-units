@@ -20,7 +20,7 @@
     <parent>
         <groupId>org.opendaylight.odlparent</groupId>
         <artifactId>single-feature-parent</artifactId>
-        <version>3.1.1-Oxygen-SR2.4_2_5_rc6-frinxodl</version>
+        <version>3.1.1-Oxygen-SR2.4_2_5_rc7-frinxodl-SNAPSHOT</version>
         <relativePath/>
     </parent>
 
@@ -48,7 +48,7 @@
                 <groupId>org.opendaylight.netconf</groupId>
                 <artifactId>netconf-artifacts</artifactId>
                 <type>pom</type>
-                <version>1.4.2-Oxygen-SR2.4_2_5_rc6-frinxodl</version>
+                <version>1.4.2-Oxygen-SR2.4_2_5_rc7-frinxodl-SNAPSHOT</version>
                 <scope>import</scope>
             </dependency>
         </dependencies>
@@ -72,7 +72,7 @@
                     <artifactId>jgraphx</artifactId>
                 </exclusion>
             </exclusions>
-            <version>1.18.04-Oxygen-SR2.4_2_5_rc6-frinxodl</version>
+            <version>1.18.04-Oxygen-SR2.4_2_5_rc7-frinxodl-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>io.frinx.translate.unit.commons</groupId>
