@@ -27,11 +27,11 @@
     <groupId>io.frinx.unitopo</groupId>
     <artifactId>frinx-unified-topology-unit-xr-7</artifactId>
     <packaging>feature</packaging>
-    <version>4.2.5.rc11-frinx-SNAPSHOT</version>
+    <version>4.2.5.rc11-frinx</version>
     <name>Frinx :: Unified Topology :: Unit :: XR :: 7</name>
 
     <properties>
-        <translate.unit.commons.version>4.2.5.rc11-frinx-SNAPSHOT</translate.unit.commons.version>
+        <translate.unit.commons.version>4.2.5.rc11-frinx</translate.unit.commons.version>
     </properties>
 
 
