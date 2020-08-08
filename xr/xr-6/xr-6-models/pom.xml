@@ -30,7 +30,7 @@
 
     <groupId>io.frinx.unitopo</groupId>
     <artifactId>xr-6-models</artifactId>
-    <version>4.2.5.rc11-frinx</version>
+    <version>4.2.5.rc12-frinx-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <build>
         <plugins>
