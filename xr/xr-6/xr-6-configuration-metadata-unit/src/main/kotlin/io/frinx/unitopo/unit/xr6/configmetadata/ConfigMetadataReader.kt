@@ -53,7 +53,7 @@ class ConfigMetadataReader(private val access: UnderlayAccess) :
     }
 
     private fun getCommitHistory(attempts: Int): Optional<RecordType> {
-        val future = access.read(COMMIT_HISTORY_IID, LogicalDatastoreType.OPERATIONAL)
+        val future = access.readUncached(COMMIT_HISTORY_IID, LogicalDatastoreType.OPERATIONAL)
         return try {
             future.checkedGet()
         } catch (e: ReadFailedException) {
