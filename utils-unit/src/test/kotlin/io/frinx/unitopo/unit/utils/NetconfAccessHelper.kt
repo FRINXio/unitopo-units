@@ -154,6 +154,16 @@ open class NetconfAccessHelper() : UnderlayAccess {
         throw UnsupportedOperationException("not implemented")
     }
 
+    override fun <T : DataObject> readUncached(path: InstanceIdentifier<T>):
+        CheckedFuture<Optional<T>, ReadFailedException> {
+        return read(path)
+    }
+
+    override fun <T : DataObject> readUncached(path: InstanceIdentifier<T>, type: LogicalDatastoreType):
+        CheckedFuture<Optional<T>, ReadFailedException> {
+        return read(path, type)
+    }
+
     override fun close() {
         throw UnsupportedOperationException("not implemented")
     }
