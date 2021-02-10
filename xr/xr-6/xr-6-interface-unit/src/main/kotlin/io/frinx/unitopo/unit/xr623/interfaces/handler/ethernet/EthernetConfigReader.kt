@@ -107,6 +107,7 @@ fun lacpConfig1Builder.isEmpty(): Boolean {
 }
 
 fun lacpConfig1Builder.setLacpPeriodShort(periodshort: PeriodShortEnum) {
+    if (periodshort.enumeration == null) return
     when (periodshort.enumeration.intValue) {
         1 -> setInterval(LacpPeriodType.FAST)
         else -> setInterval(LacpPeriodType.SLOW)
