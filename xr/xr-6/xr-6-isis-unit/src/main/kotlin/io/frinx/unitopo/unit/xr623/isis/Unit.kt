@@ -94,7 +94,7 @@ class Unit(private val registry: TranslationUnitCollector) : TranslateUnit {
         wRegistry.subtreeAddAfter(IIDs.NE_NE_PR_PR_IS_IN_IN_TI_CONFIG, IsisInterfaceTimersConfigWriter(access),
             setOf(RWUtils.cutIdFromStart(
                 IIDs.NE_NE_PR_PR_IS_IN_IN_TI_CO_AUG_ISISIFTIMERSCONFAUG, IIDs.NE_NE_PR_PR_IS_IN_IN_TI_CONFIG)),
-            IIDs.NE_NE_PR_PR_IS_IN_IN_CONFIG)
+            IIDs.NE_NE_PR_PR_IS_IN_INTERFACE, IIDs.NE_NE_PR_PR_IS_IN_IN_CONFIG)
     }
 
     private fun provideReaders(rRegistry: CustomizerAwareReadRegistryBuilder, access: UnderlayAccess) {
