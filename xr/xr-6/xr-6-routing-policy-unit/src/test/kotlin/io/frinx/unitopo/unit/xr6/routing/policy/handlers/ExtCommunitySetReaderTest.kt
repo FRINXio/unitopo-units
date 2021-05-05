@@ -47,8 +47,8 @@ class ExtCommunitySetReaderTest : AbstractNetconfHandlerTest() {
 
         val vrfs = parseGetCfgResponse(DATA_NODES, InstanceIdentifier.create(Vrfs::class.java))
 
-        assertEquals(listOf("abcd3-route-target-import-set", "abcd-route-target-export-set",
-            "abcd-route-target-import-set")
+        assertEquals(listOf("abcd-route-target-export-set", "abcd-route-target-import-set",
+            "abcd3-route-target-import-set")
                 .map { ExtCommunitySetKey(it) },
 
                 ExtCommunitySetReader.parseAllIds(vrfs))

@@ -28,7 +28,7 @@ class InterfaceReaderTest : AbstractNetconfHandlerTest() {
     @Test
     fun testAllIds() {
         Assert.assertEquals(
-                listOf("GigabitEthernet0/0/0/3", "GigabitEthernet0/0/0/2")
+                listOf("GigabitEthernet0/0/0/2", "GigabitEthernet0/0/0/3")
                         .map { InterfaceKey(it) },
                 InterfaceReader.parseInterfaceIds(
                         InterfaceReader.parseInterfaces(parseGetCfgResponse(DATA_NODES, InterfaceReader.LLDP_OPER))))
