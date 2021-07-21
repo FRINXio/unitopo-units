@@ -34,14 +34,6 @@
         <dependencies>
             <dependency>
                 <groupId>io.frinx.unitopo</groupId>
-                <artifactId>unified-topology-units-features</artifactId>
-                <classifier>features</classifier>
-                <version>${project.version}</version>
-                <type>xml</type>
-            </dependency>
-
-            <dependency>
-                <groupId>io.frinx.unitopo</groupId>
                 <artifactId>utils-unit</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -323,57 +315,6 @@
                 <artifactId>xr-7-logging-unit</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
-            <!-- Features -->
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>frinx-unified-topology-all-units</artifactId>
-                <type>xml</type>
-                <classifier>features</classifier>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>frinx-unified-topology-unit-base</artifactId>
-                <type>xml</type>
-                <classifier>features</classifier>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>frinx-unified-topology-unit-junos-17-3</artifactId>
-                <type>xml</type>
-                <classifier>features</classifier>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>frinx-unified-topology-unit-junos-18-2</artifactId>
-                <type>xml</type>
-                <classifier>features</classifier>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>frinx-unified-topology-unit-xr-6</artifactId>
-                <type>xml</type>
-                <classifier>features</classifier>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>frinx-unified-topology-unit-xr-6-6</artifactId>
-                <type>xml</type>
-                <classifier>features</classifier>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>frinx-unified-topology-unit-xr-7</artifactId>
-                <type>xml</type>
-                <classifier>features</classifier>
-                <version>${project.version}</version>
-            </dependency>
-        </dependencies>
+       </dependencies>
     </dependencyManagement>
 </project>
