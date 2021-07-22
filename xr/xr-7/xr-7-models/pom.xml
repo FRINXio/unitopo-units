@@ -31,33 +31,15 @@
     <groupId>io.frinx.unitopo</groupId>
     <artifactId>xr-7-models</artifactId>
     <version>4.2.8.rc1-frinx-SNAPSHOT</version>
-    <packaging>bundle</packaging>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
-                <extensions>true</extensions>
-                <configuration>
-                    <instructions>
-                        <_invalidfilenames></_invalidfilenames>
-                        <Export-Package>
-                            <!-- Export generated APIs with device label -->
-                            org.opendaylight.yang.gen.v1.http.cisco.com.ns.yang.cisco.*;device=xr7
-                        </Export-Package>
-                        <Import-Package>
-                            <!--
-                            For some reason, all the generated packages are added to import section
-                            which is dangerous in runtime. Prevent that with following instruction
-                             -->
-                            !org.opendaylight.yang.gen.v1.http.cisco.com.ns.yang.cisco.*,
-                            *,
-                        </Import-Package>
-                    </instructions>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+    <packaging>jar</packaging>
+
+    <properties>
+      <maven.javadoc.skip>true</maven.javadoc.skip>
+      <checkstyle.skip>true</checkstyle.skip>
+      <pmd.skip>true</pmd.skip>
+      <duplicate-finder.skip>true</duplicate-finder.skip>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.opendaylight.mdsal.model</groupId>

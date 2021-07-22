@@ -31,21 +31,15 @@
     <groupId>io.frinx.unitopo</groupId>
     <artifactId>junos-18-models</artifactId>
     <version>4.2.8.rc1-frinx-SNAPSHOT</version>
-    <packaging>bundle</packaging>
-    <build>
-        <plugins>
-          <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
-                <extensions>true</extensions>
-                <configuration>
-                    <instructions>
-                        <_invalidfilenames />
-                    </instructions>
-                </configuration>
-            </plugin>
-        </plugins>
-   </build>
+    <packaging>jar</packaging>
+
+    <properties>
+      <maven.javadoc.skip>true</maven.javadoc.skip>
+      <checkstyle.skip>true</checkstyle.skip>
+      <pmd.skip>true</pmd.skip>
+      <duplicate-finder.skip>true</duplicate-finder.skip>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.opendaylight.yangtools</groupId>
