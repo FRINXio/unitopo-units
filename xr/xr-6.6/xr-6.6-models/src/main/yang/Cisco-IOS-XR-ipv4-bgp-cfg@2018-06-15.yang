@@ -9,7 +9,7 @@ module Cisco-IOS-XR-ipv4-bgp-cfg {
 
   /*** LINKAGE (IMPORTS / INCLUDES) ***/
 
-  import ietf-inet-types { prefix "inet"; }
+  import ietf-inet-types { prefix "inet"; revision-date 2013-07-15; }
 
   import Cisco-IOS-XR-types { prefix "xr"; revision-date 2018-06-29; }
 
