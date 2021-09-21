@@ -81,12 +81,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.opendaylight.controller</groupId>
-            <artifactId>config-util</artifactId>
-            <version>${config.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>io.frinx.translate.unit.commons</groupId>
             <artifactId>handlers</artifactId>
             <version>${translate.unit.commons.version}</version>

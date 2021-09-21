@@ -19,9 +19,9 @@ package io.frinx.unitopo.unit.junos17.platform.handler
 import io.frinx.unitopo.registry.spi.UnderlayAccess
 import org.junit.Assert
 import org.junit.Test
-import org.opendaylight.controller.config.util.xml.XmlUtil
 import org.opendaylight.mdsal.binding.generator.impl.ModuleInfoBackedContext
 import org.opendaylight.netconf.api.NetconfMessage
+import org.opendaylight.netconf.api.xml.XmlUtil
 import org.opendaylight.netconf.sal.connect.netconf.schema.mapping.NetconfMessageTransformer
 import org.opendaylight.netconf.sal.connect.netconf.util.NetconfMessageTransformUtil
 import org.opendaylight.yang.gen.v1.http.frinx.openconfig.net.yang.platform.rev161222.platform.component.top.components.component.StateBuilder

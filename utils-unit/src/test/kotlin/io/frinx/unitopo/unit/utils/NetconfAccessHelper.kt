@@ -21,13 +21,13 @@ import com.google.common.util.concurrent.CheckedFuture
 import com.google.common.util.concurrent.Futures
 import io.frinx.translate.unit.commons.handler.spi.GenericTranslateContext
 import io.frinx.unitopo.registry.spi.UnderlayAccess
-import org.opendaylight.controller.config.util.xml.XmlUtil
 import org.opendaylight.controller.md.sal.common.api.data.LogicalDatastoreType
 import org.opendaylight.controller.md.sal.common.api.data.ReadFailedException
 import org.opendaylight.controller.md.sal.dom.api.DOMRpcException
 import org.opendaylight.controller.md.sal.dom.api.DOMRpcResult
 import org.opendaylight.mdsal.binding.generator.impl.ModuleInfoBackedContext
 import org.opendaylight.netconf.api.NetconfMessage
+import org.opendaylight.netconf.api.xml.XmlUtil
 import org.opendaylight.netconf.sal.connect.netconf.schema.mapping.NetconfMessageTransformer
 import org.opendaylight.netconf.sal.connect.netconf.util.NetconfMessageTransformUtil
 import org.opendaylight.yangtools.yang.binding.DataObject

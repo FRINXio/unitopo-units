@@ -17,9 +17,9 @@
 package io.frinx.unitopo.unit.utils
 
 import io.frinx.translate.unit.commons.handler.spi.GenericTranslateContext
-import org.opendaylight.controller.config.util.xml.XmlUtil
 import org.opendaylight.mdsal.binding.generator.impl.ModuleInfoBackedContext
 import org.opendaylight.netconf.api.NetconfMessage
+import org.opendaylight.netconf.api.xml.XmlUtil
 import org.opendaylight.netconf.sal.connect.netconf.schema.mapping.NetconfMessageTransformer
 import org.opendaylight.netconf.sal.connect.netconf.util.NetconfMessageTransformUtil
 import org.opendaylight.yangtools.yang.binding.DataObject
