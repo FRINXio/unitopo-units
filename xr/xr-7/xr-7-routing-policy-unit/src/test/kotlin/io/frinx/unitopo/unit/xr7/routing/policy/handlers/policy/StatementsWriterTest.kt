@@ -110,7 +110,7 @@ class StatementsWriterTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        underlayAccess = Mockito.spy(NetconfAccessHelper(NC_HELPER))
+        underlayAccess = Mockito.spy(NC_HELPER)
         target = StatementsWriter(underlayAccess)
 
         idCaps = arrayOf(ArgumentCaptor.forClass(IID::class.java) as ArgumentCaptor<IID<RoutePolicy>>,

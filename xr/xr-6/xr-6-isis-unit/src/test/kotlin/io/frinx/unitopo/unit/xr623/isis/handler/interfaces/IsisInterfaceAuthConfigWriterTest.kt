@@ -96,7 +96,7 @@ class IsisInterfaceAuthConfigWriterTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        underlayAccess = Mockito.spy(NetconfAccessHelper(NC_HELPER))
+        underlayAccess = Mockito.spy(NC_HELPER)
         target = IsisInterfaceAuthConfigWriter(underlayAccess)
 
         idCap = ArgumentCaptor.forClass(IID::class.java) as ArgumentCaptor<IID<DataObject>>

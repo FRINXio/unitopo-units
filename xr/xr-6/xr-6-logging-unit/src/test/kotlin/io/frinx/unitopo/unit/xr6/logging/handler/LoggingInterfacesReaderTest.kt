@@ -48,7 +48,7 @@ class LoggingInterfacesReaderTest : AbstractNetconfHandlerTest() {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        underlayAccess = Mockito.spy(NetconfAccessHelper(NC_HELPER))
+        underlayAccess = Mockito.spy(NC_HELPER)
         target = LoggingInterfacesReader(underlayAccess)
     }
 

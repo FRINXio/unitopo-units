@@ -108,7 +108,7 @@ class AggregateConfigWriterTest {
     @Before
     fun setup() {
         MockitoAnnotations.initMocks(this)
-        underlayAccess = Mockito.spy(NetconfAccessHelper(NC_HELPER))
+        underlayAccess = Mockito.spy(NC_HELPER)
         target = AggregateConfigWriter(underlayAccess)
     }
 

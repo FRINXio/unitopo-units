@@ -60,7 +60,7 @@ class L3VrfReaderTest : AbstractNetconfHandlerTest() {
 
     @Test
     fun testReadCurrentAttributes() {
-        underlayAccess = Mockito.spy(NetconfAccessHelper(NC_HELPER))
+        underlayAccess = Mockito.spy(NC_HELPER)
         target = L3VrfReader(underlayAccess)
         val builder = NetworkInstanceBuilder()
         target.readCurrentAttributes(IID_NETWORK_INSTANCE, builder, readContext)
@@ -69,7 +69,7 @@ class L3VrfReaderTest : AbstractNetconfHandlerTest() {
 
     @Test
     fun testGetAllIds() {
-        underlayAccess = Mockito.spy(NetconfAccessHelper(NC_HELPER))
+        underlayAccess = Mockito.spy(NC_HELPER)
         target = L3VrfReader(underlayAccess)
         val list = target.getAllIds(IID_NETWORK_INSTANCE, readContext)
         // the list should contains iids from interface,bgp and ospf block
