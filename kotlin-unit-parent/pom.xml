@@ -52,6 +52,7 @@
                     <configuration>
                         <parallel>suites</parallel>
                         <threadCount>2</threadCount>
+                        <argLine>-Xmx4096m</argLine>
                     </configuration>
                 </plugin>
             </plugins>
