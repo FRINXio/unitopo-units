@@ -26,7 +26,6 @@
     </parent>
 
     <artifactId>junos-17-policy-forwarding-unit</artifactId>
-    <packaging>bundle</packaging>
     <description>
         Unified topology unit for Junos Policy Fow.
         Compatible with:

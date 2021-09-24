@@ -26,7 +26,6 @@
     </parent>
 
     <artifactId>junos-17-configuration-metadata-unit</artifactId>
-    <packaging>bundle</packaging>
 
     <dependencies>
         <dependency>

@@ -29,7 +29,6 @@
     </parent>
 
     <artifactId>junos-17-platform</artifactId>
-    <packaging>bundle</packaging>
 
     <build>
         <!-- Configuration necessary to have java+kotlin compilation working -->

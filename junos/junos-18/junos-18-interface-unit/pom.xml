@@ -29,7 +29,6 @@
     </parent>
 
     <artifactId>junos-18-interface-unit</artifactId>
-    <packaging>bundle</packaging>
     <description>
         Unified topology unit for Junos 18.2 interfaces.
         Compatible with:

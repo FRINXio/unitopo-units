@@ -26,7 +26,6 @@
     </parent>
 
     <artifactId>junos-17-ospf-unit</artifactId>
-    <packaging>bundle</packaging>
     <description>
         Unified topology unit for Junos 17.3 OSPF.
         Compatible with:

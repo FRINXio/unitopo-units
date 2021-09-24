@@ -26,7 +26,6 @@
     </parent>
 
     <artifactId>utils-unit</artifactId>
-    <packaging>bundle</packaging>
 
     <build>
         <plugins>

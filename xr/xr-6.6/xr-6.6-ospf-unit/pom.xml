@@ -27,7 +27,6 @@
     </parent>
 
     <artifactId>xr-6.6-ospf-unit</artifactId>
-    <packaging>bundle</packaging>
 
     <dependencies>
         <dependency>
@@ -115,21 +114,5 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
-                <extensions>true</extensions>
-                <configuration>
-                    <instructions>
-                        <Import-Package>
-                            org.opendaylight.yang.gen.v1.http.cisco.com.ns.yang.cisco.*;device=xr66,
-                            *,
-                        </Import-Package>
-                    </instructions>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+
 </project>

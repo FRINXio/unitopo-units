@@ -26,7 +26,6 @@
     </parent>
 
     <artifactId>junos-17-bgp-unit</artifactId>
-    <packaging>bundle</packaging>
     <description>
         Unified topology unit for Junos BGP protocol.
         Compatible with:

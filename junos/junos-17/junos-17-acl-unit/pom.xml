@@ -26,7 +26,6 @@
     </parent>
 
     <artifactId>junos-17-acl-unit</artifactId>
-    <packaging>bundle</packaging>
     <description>
         Unified topology unit for Junos 17.3 acl.
         Compatible with:
