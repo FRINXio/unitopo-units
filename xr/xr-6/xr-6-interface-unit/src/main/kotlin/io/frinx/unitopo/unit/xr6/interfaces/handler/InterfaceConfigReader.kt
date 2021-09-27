@@ -31,12 +31,16 @@ class InterfaceConfigReader(underlayAccess: UnderlayAccess) :
     override fun readIid(ifcName: String): InstanceIdentifier<InterfaceConfigurations> = InterfaceReader.IFC_CFGS
 
     override fun readData(data: InterfaceConfigurations?, configBuilder: ConfigBuilder, ifcName: String) {
+        InterfaceReader.readInterfaceProps(underlayAccess, ifcName) { configBuilder.fromUnderlay(it) }
         Util.filterInterface(data, ifcName).let {
-                // Invoke handler with read value or use default
+            // Invoke handler with read value or use default
                 // XR returns no config data for interface that has no configuration but is up
             configBuilder.fromUnderlay(it ?: Util.getDefaultIfcCfg(ifcName))
+            if (it?.isInterfaceVirtual == true) {
+                // In case this is virtual interface, reset mtu set above
+                configBuilder.mtu = null
+            }
         }
-        InterfaceReader.readInterfaceProps(underlayAccess, ifcName) { configBuilder.fromUnderlay(it) }
     }
 
     fun ConfigBuilder.fromUnderlay(underlay: InterfaceConfiguration) {
