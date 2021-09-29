@@ -34,7 +34,6 @@
         <cli.version>4.2.9.rc1-frinx-SNAPSHOT</cli.version>
         <openconfig.version>4.2.9.rc1-frinx-SNAPSHOT</openconfig.version>
         <hc.version>1.18.04-Oxygen-SR2.4_2_9_rc1-frinxodl-SNAPSHOT</hc.version>
-        <kotlin.version>1.2.41</kotlin.version>
         <mdsal-old.version>1.7.2-Oxygen-SR2.4_2_9_rc1-frinxodl-SNAPSHOT</mdsal-old.version>
         <controller.version>1.7.2-Oxygen-SR2.4_2_9_rc1-frinxodl-SNAPSHOT</controller.version>
         <netconf.version>1.4.2-Oxygen-SR2.4_2_9_rc1-frinxodl-SNAPSHOT</netconf.version>
@@ -63,7 +62,6 @@
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib</artifactId>
-            <version>${kotlin.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jetbrains</groupId>
