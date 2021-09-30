@@ -49,7 +49,7 @@ class ConfigMetadataReader(private val underlayAccess: UnderlayAccess) :
     ) {
         getCommitHistory(0).orNull()
             ?.commit.orEmpty()
-            .maxBy { parseDateFormat(it.timestamp) }
+            .maxByOrNull { parseDateFormat(it.timestamp) }
             ?.let { configmetadata.lastConfigurationFingerprint = it.timestamp }
     }
 
