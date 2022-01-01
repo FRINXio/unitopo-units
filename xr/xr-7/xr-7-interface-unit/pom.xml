@@ -24,12 +24,12 @@
     <parent>
         <groupId>io.frinx.unitopo</groupId>
         <artifactId>kotlin-unit-parent</artifactId>
-        <version>4.2.10.rc8-frinx</version>
+        <version>4.2.10.rc9-frinx-SNAPSHOT</version>
         <relativePath>../../../kotlin-unit-parent</relativePath>
     </parent>
 
     <artifactId>xr-7-interface-unit</artifactId>
-    <version>4.2.10.rc8-frinx</version>
+    <version>4.2.10.rc9-frinx-SNAPSHOT</version>
     <description>
         Unified topology unit for XR interfaces.
         Compatible with:
